@@ -1,0 +1,362 @@
+/* 08 — Technology Universe. The 3D is the page; panels float over it. */
+
+.u8 {
+  --bg: #05070c;
+  --fg: #e9eef6;
+  --fg-2: #9aa7bd;
+  --faint: #5a6478;
+  --cyan: #7dd3fc;
+  --line: rgba(125, 211, 252, 0.2);
+
+  position: relative;
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'Space Grotesk', sans-serif;
+  overflow-x: clip;
+}
+
+.u8__scene {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+}
+
+.u8__scene canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.u8 > *:not(.u8__scene) {
+  position: relative;
+  z-index: 2;
+}
+
+/* labels rendered inside the 3D scene */
+.u8__core-label {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 13px;
+  letter-spacing: 0.3em;
+  color: #e9eef6;
+  white-space: nowrap;
+  text-shadow: 0 0 14px rgba(5, 7, 12, 0.9);
+}
+
+.u8__node-label {
+  display: block;
+  transform: translateY(16px);
+  white-space: nowrap;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(125, 211, 252, 0.2);
+  background: rgba(5, 7, 12, 0.7);
+  color: #9aa7bd;
+  transition: color 0.3s ease, border-color 0.3s ease, background 0.3s ease;
+}
+
+.u8__node-label.is-lit {
+  color: var(--cyan);
+  border-color: rgba(125, 211, 252, 0.7);
+  background: rgba(125, 211, 252, 0.14);
+}
+
+/* nav */
+.u8__nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+  padding: 20px clamp(18px, 4vw, 48px);
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--faint);
+  pointer-events: none;
+}
+
+.u8__nav-id {
+  color: var(--fg);
+}
+
+@media (max-width: 700px) {
+  .u8__nav-hint {
+    display: none;
+  }
+}
+
+/* hero */
+.u8__hero {
+  min-height: 100svh;
+  display: flex;
+  align-items: flex-end;
+  padding: 0 clamp(18px, 4vw, 48px) clamp(40px, 8vh, 90px);
+}
+
+.u8__hero > div {
+  max-width: 44ch;
+}
+
+.u8__eyebrow {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.u8__hero h1 {
+  margin-top: 16px;
+  font-size: clamp(2.2rem, 6vw, 4.4rem);
+  font-weight: 500;
+  letter-spacing: -0.045em;
+  line-height: 1;
+}
+
+.u8__hero p {
+  margin-top: 16px;
+  color: var(--fg-2);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+/* panels float over the scene */
+.u8__panel {
+  padding: clamp(50px, 10vh, 120px) clamp(18px, 4vw, 48px);
+}
+
+.u8__panel-inner {
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: clamp(24px, 4vw, 44px);
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(5, 7, 12, 0.72);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.u8__panel-tag {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.26em;
+  text-transform: uppercase;
+  color: var(--cyan);
+}
+
+.u8__panel h2 {
+  margin-top: 10px;
+  font-size: clamp(1.5rem, 3.6vw, 2.5rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+}
+
+.u8__panel-lede {
+  margin-top: 10px;
+  color: var(--fg-2);
+  max-width: 56ch;
+}
+
+/* inspector sits to the side so the system stays visible */
+.u8__inspector-wrap {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.u8__inspector {
+  width: min(420px, 100%);
+  padding: 24px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: rgba(5, 7, 12, 0.78);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.u8__inspector h2 {
+  margin-top: 10px;
+  font-size: 1.7rem;
+  font-weight: 500;
+  letter-spacing: -0.03em;
+}
+
+.u8__inspector-meta {
+  margin-top: 4px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10.5px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.u8__inspector-body {
+  margin-top: 14px;
+  color: var(--fg-2);
+  font-size: 0.95rem;
+  line-height: 1.65;
+  min-height: 5.4em;
+}
+
+/* projects */
+.u8__projects {
+  display: grid;
+  gap: 10px;
+  margin-top: 24px;
+}
+
+@media (min-width: 860px) {
+  .u8__projects {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.u8__projects > li {
+  padding: 18px;
+  border: 1px solid rgba(125, 211, 252, 0.14);
+  border-radius: 6px;
+  transition: border-color 0.35s ease, background 0.35s ease, transform 0.35s ease;
+  cursor: default;
+}
+
+.u8__projects > li:hover,
+.u8__projects > li.is-on {
+  border-color: var(--cyan);
+  background: rgba(125, 211, 252, 0.08);
+  transform: translateY(-2px);
+}
+
+.u8__projects > li > div {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.u8__projects h3 {
+  font-size: 1.1rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.u8__projects > li > div span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--faint);
+}
+
+.u8__projects > li > p {
+  margin-top: 8px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--fg-2);
+}
+
+.u8__projects ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 12px;
+}
+
+.u8__projects ul li {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border: 1px solid rgba(125, 211, 252, 0.16);
+  border-radius: 3px;
+  color: var(--fg-2);
+}
+
+/* roles */
+.u8__roles {
+  display: grid;
+  gap: 0;
+  margin-top: 24px;
+  border-top: 1px solid rgba(125, 211, 252, 0.12);
+}
+
+.u8__roles li {
+  display: grid;
+  gap: 8px;
+  padding: 20px 0;
+  border-bottom: 1px solid rgba(125, 211, 252, 0.12);
+}
+
+@media (min-width: 800px) {
+  .u8__roles li {
+    grid-template-columns: 200px 1fr;
+    gap: 30px;
+  }
+}
+
+.u8__roles li > span {
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--faint);
+  padding-top: 4px;
+}
+
+.u8__roles h3 {
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+.u8__roles p {
+  font-size: 13.5px;
+  color: var(--cyan);
+  margin-top: 3px;
+}
+
+.u8__role-blurb {
+  color: var(--fg-2) !important;
+  margin-top: 8px !important;
+  line-height: 1.6;
+}
+
+.u8__edu {
+  margin-top: 20px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--faint);
+}
+
+/* contact */
+.u8__contact {
+  padding-bottom: 140px;
+}
+
+.u8__contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px 34px;
+  margin-top: 22px;
+  font-family: 'IBM Plex Mono', monospace;
+  font-size: 12.5px;
+  letter-spacing: 0.1em;
+}
+
+.u8__contact-links a {
+  border-bottom: 1px solid var(--line);
+  padding-bottom: 3px;
+  transition: color 0.3s ease, border-color 0.3s ease;
+}
+
+.u8__contact-links a:hover {
+  color: var(--cyan);
+  border-color: var(--cyan);
+}
+
+.u8__contact-links span {
+  color: var(--faint);
+}
