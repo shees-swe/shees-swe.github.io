@@ -3,10 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Muhammad Shees — Full-Stack Web Developer</title>
+    <title>Muhammad Shees — Full-Stack Developer</title>
     <meta
       name="description"
-      content="Muhammad Shees is a full-stack web developer in Islamabad, Pakistan, currently building FIRMS, a financial management system at Welthungerhilfe. Explore his work in React, Node.js and Android."
+      content="Muhammad Shees is a full-stack developer in Karachi, Pakistan, focused on the MERN stack and creative frontend development with React, TypeScript, Three.js and GSAP."
     />
     <meta name="author" content="Muhammad Shees" />
     <meta name="robots" content="index, follow" />
@@ -14,53 +14,71 @@
 
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:title" content="Muhammad Shees — Full-Stack Web Developer" />
+    <meta property="og:locale" content="en_US" />
+    <meta property="og:title" content="Muhammad Shees — Full-Stack Developer" />
     <meta
       property="og:description"
-      content="Full-stack web developer in Islamabad. Currently building FIRMS, the financial management system at Welthungerhilfe."
+      content="Full-stack developer in Karachi, Pakistan — MERN-focused, with a strong interest in creative frontend work. Explore the stack in an interactive 3D map."
     />
     <meta property="og:url" content="https://shees-swe.github.io/" />
     <meta property="og:site_name" content="Muhammad Shees" />
     <meta property="og:image" content="https://shees-swe.github.io/og-image.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Muhammad Shees — Full-Stack Developer, MERN-focused, Karachi, Pakistan" />
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Muhammad Shees — Full-Stack Web Developer" />
+    <meta name="twitter:title" content="Muhammad Shees — Full-Stack Developer" />
     <meta
       name="twitter:description"
-      content="Full-stack web developer in Islamabad. Currently building FIRMS, the financial management system at Welthungerhilfe."
+      content="Full-stack developer in Karachi, Pakistan — MERN-focused, with a strong interest in creative frontend work. Explore the stack in an interactive 3D map."
     />
     <meta name="twitter:image" content="https://shees-swe.github.io/og-image.png" />
 
     <meta name="theme-color" content="#05070c" />
+    <meta name="color-scheme" content="dark" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@300;400;500;600&family=Space+Grotesk:wght@300;400;500;700&display=swap"
-      rel="stylesheet"
-    />
+    <!-- Self-hosted fonts: no render-blocking third-party request. -->
+    <link rel="preload" href="/fonts/SpaceGrotesk-var-latin.woff2" as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href="/fonts/IBMPlexMono-400-latin.woff2" as="font" type="font/woff2" crossorigin />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
         "@type": "Person",
         "name": "Muhammad Shees",
-        "jobTitle": "Full-Stack Web Developer",
+        "jobTitle": "Full-Stack Developer",
         "url": "https://shees-swe.github.io/",
+        "email": "mailto:shees.swe@gmail.com",
         "address": {
           "@type": "PostalAddress",
-          "addressLocality": "Islamabad",
+          "addressLocality": "Karachi",
           "addressCountry": "PK"
         },
-        "sameAs": ["https://www.linkedin.com/in/muhammad-shees-0815a5423/"]
+        "alumniOf": { "@type": "EducationalOrganization", "name": "Aptech" },
+        "sameAs": [
+          "https://github.com/shees-swe",
+          "https://www.linkedin.com/in/muhammad-shees-0815a5423/"
+        ],
+        "knowsAbout": ["MERN stack", "React", "TypeScript", "Node.js", "Express", "MongoDB", "Three.js", "GSAP"]
       }
     </script>
   </head>
   <body>
     <div id="root"></div>
+    <noscript>
+      <main style="font-family: system-ui, sans-serif; color: #e9eef6; padding: 48px 24px; max-width: 40rem; line-height: 1.6">
+        <h1>Muhammad Shees — Full-Stack Developer</h1>
+        <p>Karachi, Pakistan. MERN-focused, with a strong interest in creative frontend development.</p>
+        <p>This portfolio needs JavaScript for its interactive 3D technology map.</p>
+        <p>
+          <a style="color: #7dd3fc" href="mailto:shees.swe@gmail.com">Email</a> ·
+          <a style="color: #7dd3fc" href="https://github.com/shees-swe">GitHub</a> ·
+          <a style="color: #7dd3fc" href="https://www.linkedin.com/in/muhammad-shees-0815a5423/">LinkedIn</a>
+        </p>
+      </main>
+    </noscript>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
