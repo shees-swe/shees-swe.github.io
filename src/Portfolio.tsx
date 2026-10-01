@@ -29,8 +29,15 @@ export default function Portfolio() {
   const [hoverTech, setHoverTech] = useState<string | null>(null);
   const [selectedTech, setSelectedTech] = useState<string | null>(null);
   const [hoverProject, setHoverProject] = useState<string | null>(null);
-  /** The WebGL loop only advances while the universe section is on screen. */
-  const [universeVisible, setUniverseVisible] = useState(false);
+  /**
+   * The WebGL loop advances while the hero or the universe section is on screen
+   * — the two places where the 3D backdrop is the focus and the tech nodes must
+   * keep orbiting. Everywhere else the scene rests on a static frame so the GPU
+   * idles and scrolling stays smooth. (The scene is a fixed fullscreen backdrop,
+   * so gating the loop on the universe section alone froze the orbit animation
+   * behind the hero.)
+   */
+  const [backdropActive, setBackdropActive] = useState(false);
   /**
    * The 3D scene (three + fiber + drei, ~925KB) only starts downloading when the
    * browser is idle or once the universe section is actually on screen and the
@@ -53,13 +60,21 @@ export default function Portfolio() {
       setSceneAllowed(true);
     };
 
-    // One observer drives both: the render loop (while the section is visible)
-    // and scene loading (once visible, after the scroll settles).
+    // One observer drives three things: the render loop (while the hero or the
+    // universe section — the two places the 3D backdrop is the focus — is
+    // visible) and scene loading (once the universe section is visible, after
+    // the scroll settles).
     let settleId: number | undefined;
+    const visibleSections = new Set<string>();
     const io = new IntersectionObserver(
-      ([entry]) => {
-        setUniverseVisible(entry.isIntersecting);
-        if (entry.isIntersecting) {
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visibleSections.add(entry.target.id);
+          else visibleSections.delete(entry.target.id);
+        });
+        setBackdropActive(visibleSections.size > 0);
+        const universeHere = visibleSections.has('universe');
+        if (universeHere) {
           if (!allowed && settleId === undefined) settleId = window.setTimeout(allow, 800);
         } else if (settleId !== undefined) {
           window.clearTimeout(settleId);
@@ -68,6 +83,8 @@ export default function Portfolio() {
       },
       { threshold: 0 },
     );
+    const top = document.getElementById('top');
+    if (top) io.observe(top);
     io.observe(el);
 
     // Otherwise wait until the browser is idle — the safest moment to parse.
@@ -197,7 +214,7 @@ export default function Portfolio() {
                 progress={progress}
                 compact={compact}
                 reduced={reduced}
-                active={universeVisible}
+                active={backdropActive}
                 eventSource={stageEl}
               />
             )}
