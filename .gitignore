@@ -1,0 +1,15 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+dist-qa/
+
+# decoded binary assets — the .b64 sidecars are the committed source of truth;
+# scripts/restore-binaries.mjs regenerates these on `npm run build`
+public/fonts/*.woff2
+public/og-image.png
+
+# logs / os
+*.log
+.DS_Store

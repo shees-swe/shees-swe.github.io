@@ -1,5 +1,5 @@
-import C08Universe from './concepts/C08Universe';
+import Portfolio from './Portfolio';
 
 export default function App() {
-  return <C08Universe />;
+  return <Portfolio />;
 }
