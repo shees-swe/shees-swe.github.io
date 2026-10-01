@@ -32,10 +32,11 @@ export default function Portfolio() {
   /** The WebGL loop only advances while the universe section is on screen. */
   const [universeVisible, setUniverseVisible] = useState(false);
   /**
-   * The 3D scene (three + fiber + drei, ~925KB) only starts downloading once the
-   * page is interactive or the universe section is approaching — whichever comes
-   * first. Loading it eagerly blocked the main thread during first paint, which
-   * made the page slower to load and early scrolling feel stuck.
+   * The 3D scene (three + fiber + drei, ~925KB) only starts downloading when the
+   * browser is idle or once the universe section is actually on screen and the
+   * scroll has settled. Downloading + parsing ~1MB of JS mid-scroll is what
+   * froze the page while scrolling down, so the scene never loads 1200px early
+   * or on a forced timer while the user is flicking through the page.
    */
   const [sceneAllowed, setSceneAllowed] = useState(false);
 
@@ -45,11 +46,6 @@ export default function Portfolio() {
     const el = document.getElementById('universe');
     if (!el) return;
 
-    const io = new IntersectionObserver(([entry]) => setUniverseVisible(entry.isIntersecting), {
-      threshold: 0,
-    });
-    io.observe(el);
-
     let allowed = false;
     const allow = () => {
       if (allowed) return;
@@ -57,20 +53,25 @@ export default function Portfolio() {
       setSceneAllowed(true);
     };
 
-    // Approaching the universe section always wins over idleness.
-    const near = new IntersectionObserver(
+    // One observer drives both: the render loop (while the section is visible)
+    // and scene loading (once visible, after the scroll settles).
+    let settleId: number | undefined;
+    const io = new IntersectionObserver(
       ([entry]) => {
+        setUniverseVisible(entry.isIntersecting);
         if (entry.isIntersecting) {
-          allow();
-          near.disconnect();
+          if (!allowed && settleId === undefined) settleId = window.setTimeout(allow, 800);
+        } else if (settleId !== undefined) {
+          window.clearTimeout(settleId);
+          settleId = undefined;
         }
       },
-      { rootMargin: '1200px 0px', threshold: 0 },
+      { threshold: 0 },
     );
-    near.observe(el);
+    io.observe(el);
 
-    // Otherwise wait until the browser is idle, with a backstop for browsers
-    // without requestIdleCallback or a main thread that never goes idle.
+    // Otherwise wait until the browser is idle — the safest moment to parse.
+    // The long timeout is only a backstop for a main thread that never idles.
     const w = window as unknown as {
       requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
       cancelIdleCallback?: (id: number) => void;
@@ -78,14 +79,15 @@ export default function Portfolio() {
     let idleId: number | undefined;
     let fallbackId: number | undefined;
     if (w.requestIdleCallback) {
-      idleId = w.requestIdleCallback(allow, { timeout: 5000 });
+      idleId = w.requestIdleCallback(allow, { timeout: 12000 });
     } else {
-      fallbackId = window.setTimeout(allow, 2500);
+      // Safari and older browsers have no idle callbacks.
+      fallbackId = window.setTimeout(allow, 6000);
     }
 
     return () => {
       io.disconnect();
-      near.disconnect();
+      if (settleId !== undefined) window.clearTimeout(settleId);
       if (idleId !== undefined) w.cancelIdleCallback?.(idleId);
       if (fallbackId !== undefined) window.clearTimeout(fallbackId);
     };
