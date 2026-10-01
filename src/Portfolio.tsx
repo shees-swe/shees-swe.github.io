@@ -31,17 +31,64 @@ export default function Portfolio() {
   const [hoverProject, setHoverProject] = useState<string | null>(null);
   /** The WebGL loop only advances while the universe section is on screen. */
   const [universeVisible, setUniverseVisible] = useState(false);
+  /**
+   * The 3D scene (three + fiber + drei, ~925KB) only starts downloading once the
+   * page is interactive or the universe section is approaching — whichever comes
+   * first. Loading it eagerly blocked the main thread during first paint, which
+   * made the page slower to load and early scrolling feel stuck.
+   */
+  const [sceneAllowed, setSceneAllowed] = useState(false);
 
   useLenis();
 
   useEffect(() => {
     const el = document.getElementById('universe');
     if (!el) return;
+
     const io = new IntersectionObserver(([entry]) => setUniverseVisible(entry.isIntersecting), {
       threshold: 0,
     });
     io.observe(el);
-    return () => io.disconnect();
+
+    let allowed = false;
+    const allow = () => {
+      if (allowed) return;
+      allowed = true;
+      setSceneAllowed(true);
+    };
+
+    // Approaching the universe section always wins over idleness.
+    const near = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          allow();
+          near.disconnect();
+        }
+      },
+      { rootMargin: '1200px 0px', threshold: 0 },
+    );
+    near.observe(el);
+
+    // Otherwise wait until the browser is idle, with a backstop for browsers
+    // without requestIdleCallback or a main thread that never goes idle.
+    const w = window as unknown as {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (id: number) => void;
+    };
+    let idleId: number | undefined;
+    let fallbackId: number | undefined;
+    if (w.requestIdleCallback) {
+      idleId = w.requestIdleCallback(allow, { timeout: 5000 });
+    } else {
+      fallbackId = window.setTimeout(allow, 2500);
+    }
+
+    return () => {
+      io.disconnect();
+      near.disconnect();
+      if (idleId !== undefined) w.cancelIdleCallback?.(idleId);
+      if (fallbackId !== undefined) window.clearTimeout(fallbackId);
+    };
   }, []);
 
   // Hover/focus previews; a click or tap pins the selection so touch users can inspect too.
@@ -138,7 +185,7 @@ export default function Portfolio() {
       <div className="scene" aria-hidden="true">
         <SceneBoundary>
           <Suspense fallback={null}>
-            {stageEl && (
+            {stageEl && sceneAllowed && (
               <UniverseScene
                 nodes={nodes}
                 lit={lit}
