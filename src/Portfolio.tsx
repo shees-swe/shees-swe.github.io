@@ -22,6 +22,13 @@ const UniverseScene = lazy(() => import('./universe/UniverseScene'));
 export default function Portfolio() {
   const nodes = useMemo(buildNodes, []);
   const progress = useRef(0);
+  /**
+   * Fixed-position portal for the 3D tech labels. drei's Html positions labels
+   * with viewport coordinates, so they must live in a non-scrolling container.
+   * (They used to land in the universe <section> via events.connected, which
+   * made them drift away from their nodes by the scroll offset.)
+   */
+  const labelPortalRef = useRef<HTMLDivElement | null>(null);
   const compact = useMemo(isCompact, []);
   const reduced = useMemo(reducedMotion, []);
 
@@ -216,11 +223,13 @@ export default function Portfolio() {
                 reduced={reduced}
                 active={backdropActive}
                 eventSource={stageEl}
+                labelPortal={labelPortalRef}
               />
             )}
           </Suspense>
         </SceneBoundary>
       </div>
+      <div ref={labelPortalRef} className="scene-labels" aria-hidden="true" />
 
       <SiteNav />
 

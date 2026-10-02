@@ -31,6 +31,18 @@
   transition: opacity 0.6s ease;
 }
 
+/* Fixed, non-scrolling home for the 3D tech labels. drei's Html positions
+   labels with viewport coordinates, so they must not live inside scrolling
+   content or they drift away from their nodes while scrolling. Sits above the
+   canvas (z-index 0) and below the page content (z-index 2). */
+.scene-labels {
+  position: fixed;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  overflow: hidden;
+}
+
 .site[data-scene='focus'] .scene {
   opacity: 1;
 }

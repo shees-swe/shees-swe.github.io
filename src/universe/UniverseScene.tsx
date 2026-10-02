@@ -41,6 +41,12 @@ interface SceneProps {
    * events are read from this section instead.
    */
   eventSource: HTMLElement;
+  /**
+   * Fixed-position container for the drei Html tech labels. Without this the
+   * labels are appended to the eventSource section and their viewport-based
+   * coordinates drift by the scroll offset, detaching them from their nodes.
+   */
+  labelPortal: React.RefObject<HTMLElement | null>;
 }
 
 function Starfield({ count }: { count: number }) {
@@ -82,6 +88,7 @@ function Universe({
   progress,
   compact,
   reduced,
+  labelPortal,
 }: Omit<SceneProps, 'eventSource' | 'active'>) {
   const group = useRef<THREE.Group>(null);
   const core = useRef<THREE.Mesh>(null);
@@ -219,7 +226,13 @@ function Universe({
                 />
               </mesh>
               {showLabel && (
-                <Html center distanceFactor={22} zIndexRange={[10, 0]} style={{ pointerEvents: 'none' }}>
+                <Html
+                  center
+                  distanceFactor={22}
+                  zIndexRange={[10, 0]}
+                  style={{ pointerEvents: 'none' }}
+                  portal={labelPortal as React.RefObject<HTMLElement>}
+                >
                   <span className={`scene-label${lit.has(n.id) ? ' is-lit' : ''}`}>{n.name}</span>
                 </Html>
               )}
