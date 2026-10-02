@@ -1,5 +1,5 @@
-import { useMemo, useRef } from 'react';
-import { Canvas, useFrame, useThree } from '@react-three/fiber';
+import { useEffect, useMemo, useRef } from 'react';
+import { Canvas, addEffect, useStore } from '@react-three/fiber';
 import { Html } from '@react-three/drei';
 import * as THREE from 'three';
 import { SHELL_RADIUS, shellTilt, type OrbitNode } from './model';
@@ -88,37 +88,71 @@ function Universe({
   const refs = useRef<(THREE.Group | null)[]>([]);
   const target = useMemo(() => new THREE.Vector3(), []);
   const haloTexture = useMemo(makeHaloTexture, []);
+  const store = useStore();
 
-  useFrame((state, dt) => {
-    // Under reduced motion the scene is static: time never advances.
-    // (When `active` is false the Canvas switches to on-demand rendering, so
-    // this callback simply stops being called and the last frame persists.)
-    const t = reduced ? 0 : state.clock.elapsedTime;
+  /**
+   * All per-frame scene motion — node orbits, group rotation, core pulse and
+   * the scroll-driven camera rig — runs in addEffect, which R3F executes BEFORE
+   * every useFrame subscriber. drei's Html labels position themselves in
+   * useFrame, and React subscribes those bottom-up, so the labels' useFrame
+   * used to run before this scene's own useFrame: labels were projected from
+   * last frame's node positions and camera while the balls rendered with this
+   * frame's, and on slower devices the labels visibly detached from their
+   * balls whenever the camera moved (scrolling). With the motion applied here
+   * first, the labels project from this frame's state and stay glued on.
+   */
+  useEffect(() => {
+    let last = performance.now();
+    return addEffect(() => {
+      const { camera, size, clock } = store.getState();
+      const now = performance.now();
+      const dt = Math.min(0.064, Math.max(0, (now - last) / 1000));
+      last = now;
 
-    if (group.current) {
-      group.current.rotation.y = t * 0.035 + progress.current * 1.1;
-      group.current.rotation.x = 0.18 + Math.sin(t * 0.12) * 0.04;
-    }
-    if (core.current) {
-      core.current.rotation.y = -t * 0.16;
-      core.current.scale.setScalar(1 + Math.sin(t * 1.2) * 0.02);
-    }
+      // Under reduced motion the scene is static: time never advances.
+      // (When `active` is false the Canvas switches to on-demand rendering, so
+      // this callback simply stops being called and the last frame persists.)
+      const t = reduced ? 0 : clock.elapsedTime;
 
-    nodes.forEach((n, i) => {
-      const obj = refs.current[i];
-      if (!obj) return;
-      const a = n.phase + t * n.speed;
-      obj.position.set(
-        Math.cos(a) * n.radius,
-        Math.sin(a) * Math.sin(n.tilt) * n.radius,
-        Math.sin(a) * n.radius * Math.cos(n.tilt),
-      );
-      const on = lit.size === 0 || lit.has(n.id);
-      target.setScalar(n.id === activeId ? 1.6 : on ? 1 : 0.55);
-      if (reduced) obj.scale.copy(target);
-      else obj.scale.lerp(target, Math.min(1, dt * 8));
+      if (group.current) {
+        group.current.rotation.y = t * 0.035 + progress.current * 1.1;
+        group.current.rotation.x = 0.18 + Math.sin(t * 0.12) * 0.04;
+      }
+      if (core.current) {
+        core.current.rotation.y = -t * 0.16;
+        core.current.scale.setScalar(1 + Math.sin(t * 1.2) * 0.02);
+      }
+
+      nodes.forEach((n, i) => {
+        const obj = refs.current[i];
+        if (!obj) return;
+        const a = n.phase + t * n.speed;
+        obj.position.set(
+          Math.cos(a) * n.radius,
+          Math.sin(a) * Math.sin(n.tilt) * n.radius,
+          Math.sin(a) * n.radius * Math.cos(n.tilt),
+        );
+        const on = lit.size === 0 || lit.has(n.id);
+        target.setScalar(n.id === activeId ? 1.6 : on ? 1 : 0.55);
+        if (reduced) obj.scale.copy(target);
+        else obj.scale.lerp(target, Math.min(1, dt * 8));
+      });
+
+      // Scroll flies the camera outward; portrait screens back off further so
+      // the shells fit. The camera matrix is refreshed here so the Html labels
+      // (which project in useFrame, right after this) see this frame's camera.
+      const p = progress.current;
+      const aspect = size.width / Math.max(1, size.height);
+      const fit = Math.min(2.2, Math.max(1, 1.1 / aspect));
+      const z = (10 + p * 5) * fit;
+      const y = 1.2 + p * 2.4;
+      const k = Math.min(1, dt * 2.4);
+      camera.position.z += (z - camera.position.z) * k;
+      camera.position.y += (y - camera.position.y) * k;
+      camera.lookAt(0, 0, 0);
+      camera.updateMatrixWorld();
     });
-  });
+  }, [store, nodes, lit, activeId, progress, reduced, target]);
 
   return (
     <group>
@@ -197,23 +231,6 @@ function Universe({
   );
 }
 
-/** Scroll flies the camera outward; portrait screens back off further so the shells fit. */
-function Rig({ progress }: { progress: { current: number } }) {
-  const { camera, size } = useThree();
-  useFrame((_, dt) => {
-    const p = progress.current;
-    const aspect = size.width / Math.max(1, size.height);
-    const fit = Math.min(2.2, Math.max(1, 1.1 / aspect));
-    const z = (10 + p * 5) * fit;
-    const y = 1.2 + p * 2.4;
-    const k = Math.min(1, dt * 2.4);
-    camera.position.z += (z - camera.position.z) * k;
-    camera.position.y += (y - camera.position.y) * k;
-    camera.lookAt(0, 0, 0);
-  });
-  return null;
-}
-
 export default function UniverseScene({ eventSource, compact, active, ...props }: SceneProps) {
   return (
     <Canvas
@@ -228,7 +245,6 @@ export default function UniverseScene({ eventSource, compact, active, ...props }
     >
       <color attach="background" args={['#05070c']} />
       <Universe compact={compact} {...props} />
-      <Rig progress={props.progress} />
     </Canvas>
   );
 }
