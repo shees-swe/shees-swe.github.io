@@ -26,6 +26,12 @@ export default function Footer() {
           <OutboundLink href={links.linkedin.href} aria-label={links.linkedin.aria}>
             LinkedIn ↗
           </OutboundLink>
+          <OutboundLink
+            href="https://www.google.com/preferences/source?q=shees-swe.github.io"
+            aria-label="Add this site as a preferred source on Google"
+          >
+            Preferred Source on Google ↗
+          </OutboundLink>
           <a href="#top" onClick={top}>
             Back to top ↑
           </a>
