@@ -19,7 +19,7 @@ export const links = {
   linkedin: {
     id: 'linkedin',
     label: 'LinkedIn',
-    href: 'https://www.linkedin.com/in/muhammad-shees-0815a5423/',
+    href: 'https://www.linkedin.com/in/muhammad-shees-dev/',
     display: 'Muhammad Shees',
     aria: 'Muhammad Shees on LinkedIn',
   },
