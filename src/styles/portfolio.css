@@ -466,7 +466,7 @@ h4 {
   }
 }
 
-/* MERN row first (3 across), then creative + tooling (2 across). */
+/* Core stack row first (3 across), then creative + tooling (2 across). */
 @media (min-width: 1000px) {
   .groups {
     grid-template-columns: repeat(6, 1fr);

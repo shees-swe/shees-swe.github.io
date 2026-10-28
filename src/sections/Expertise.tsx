@@ -7,7 +7,7 @@ export default function Expertise() {
         <p className="eyebrow">Technical expertise</p>
         <h2 id="expertise-title">The stack, and where it shows up</h2>
         <p className="lede">
-          My direction is MERN. Each technology is marked by whether this site actually uses it or
+          My direction is full-stack. Each technology is marked by whether this site actually uses it or
           whether it is my current focus. No percentages, no self-ratings.
         </p>
 

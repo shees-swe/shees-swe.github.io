@@ -68,7 +68,7 @@ export const projects: Project[] = [
 export const projectsStatus = {
   label: 'In progress',
   heading: 'Selected work is on the way.',
-  body: 'I’m building MERN applications, and each one will appear here once it’s finished — with the problem it solves, the approach, the technical decisions behind it and the outcome. Nothing is listed until it’s real.',
+  body: 'I’m building full-stack applications, and each one will appear here once it’s finished — with the problem it solves, the approach, the technical decisions behind it and the outcome. Nothing is listed until it’s real.',
 };
 
 /** The structure every future project will follow — describes the format, not fake content. */

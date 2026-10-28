@@ -1,6 +1,6 @@
 # Muhammad Shees — portfolio
 
-Full-stack developer (MERN-focused) with a creative-frontend layer.
+Full-stack developer with a creative-frontend layer.
 React 19 · TypeScript · Vite · GSAP + ScrollTrigger · Lenis · Three.js / React Three Fiber.
 Deployed to GitHub Pages by `.github/workflows/deploy.yml`.
 

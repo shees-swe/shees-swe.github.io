@@ -3,7 +3,7 @@
  *
  * Every entry carries its provenance in `basis`:
  *   'site'  — used in this repository (verifiable from package.json / source / workflow).
- *   'focus' — Muhammad's stated development direction (MERN back end). Real, but this
+ *   'focus' — Muhammad's stated development direction (full-stack back end). Real, but this
  *             repository does NOT demonstrate it, and the UI says so.
  *
  * Nothing is rated: no percentages, no years, no levels. Add a technology only if it
@@ -70,13 +70,13 @@ export const technologies: Technology[] = [
     pairsWith: ['react'],
   },
 
-  // — Backend (MERN focus) —
+  // — Backend —
   {
     id: 'node',
     name: 'Node.js',
     group: 'backend',
     basis: 'focus',
-    note: 'The server-side runtime of the MERN stack. This site is a static front end and does not use it at runtime.',
+    note: 'The server-side runtime for APIs and backends. This site is a static front end and does not use it at runtime.',
     pairsWith: ['express', 'mongodb', 'typescript'],
   },
   {
@@ -84,17 +84,17 @@ export const technologies: Technology[] = [
     name: 'Express',
     group: 'backend',
     basis: 'focus',
-    note: 'The API layer of the MERN stack, connecting a React client to the database. Not used by this site.',
+    note: 'The API layer connecting a React client to the database. Not used by this site.',
     pairsWith: ['node', 'mongodb', 'react'],
   },
 
-  // — Database (MERN focus) —
+  // — Database —
   {
     id: 'mongodb',
     name: 'MongoDB',
     group: 'database',
     basis: 'focus',
-    note: 'The document database of the MERN stack. Not used by this site.',
+    note: 'The document database for flexible, JSON-like data. Not used by this site.',
     pairsWith: ['express', 'node'],
   },
 
