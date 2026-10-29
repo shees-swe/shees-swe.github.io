@@ -19,6 +19,7 @@ export const profile = {
   about: [
     'I’m a full-stack developer based in Karachi, Pakistan, building web applications end to end — React frontends, Node.js APIs, and MongoDB and SQL databases. I completed the Advanced Diploma in Software Engineering (ADSE) at Aptech and I’m now studying for a BS in Software Engineering at the Virtual University of Pakistan.',
     'I’m also drawn to the creative end of the frontend: interaction, motion and real-time 3D. This site is where I practise it — the content is typed data, the interface reads from it, and the 3D map is generated from the same technology list.',
+    'I also build with AI agents as part of my workflow — Claude Code and Antigravity, connected to tools through MCP servers, working spec-first from a written plan. The agents do the legwork; I make the engineering calls, review every change, and merge only what passes.',
   ],
 } as const;
 

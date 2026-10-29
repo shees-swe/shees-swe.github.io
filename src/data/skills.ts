@@ -40,7 +40,7 @@ export const techGroups: TechGroup[] = [
   { id: 'backend', label: 'Backend', blurb: 'Server-side runtime and API layer.' },
   { id: 'database', label: 'Database', blurb: 'Data storage.' },
   { id: 'creative', label: 'Creative / Interactive', blurb: 'Motion, scroll and real-time 3D.' },
-  { id: 'tooling', label: 'Tooling / Workflow', blurb: 'Build and deployment.' },
+  { id: 'tooling', label: 'Tooling / Workflow', blurb: 'Build, deployment and agent workflow.' },
 ];
 
 export const technologies: Technology[] = [
@@ -172,6 +172,30 @@ export const technologies: Technology[] = [
     basis: 'site',
     note: 'Hosts the production site.',
     pairsWith: ['github-actions'],
+  },
+  {
+    id: 'claude-code',
+    name: 'Claude Code',
+    group: 'tooling',
+    basis: 'focus',
+    note: 'The agentic coding environment I build with — structured audits and branch-per-fix changes that I review and merge myself.',
+    pairsWith: ['mcp', 'github-actions', 'typescript'],
+  },
+  {
+    id: 'antigravity',
+    name: 'Antigravity',
+    group: 'tooling',
+    basis: 'focus',
+    note: 'A second agentic coding environment (agy) that I route work through alongside Claude Code.',
+    pairsWith: ['claude-code', 'mcp'],
+  },
+  {
+    id: 'mcp',
+    name: 'MCP',
+    group: 'tooling',
+    basis: 'focus',
+    note: 'Model Context Protocol — connects my agents to tools like Playwright, Context7 and shadcn inside the workflow.',
+    pairsWith: ['claude-code', 'antigravity'],
   },
 ];
 
