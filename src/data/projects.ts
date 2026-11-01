@@ -53,12 +53,12 @@ export const projects: Project[] = [
       'Python (Flask) API with MongoDB, so student records with varying fields stay flexible',
       'Batch writes for ingestion after single-row upserts timed out on large uploads',
       'TOTP secrets and password-reset tokens encrypted at rest with a server-side key',
-      'GitHub Actions CI running the backend tests and the production build on every pull request',
+      'GitHub Actions CI running the backend tests and the production build',
     ],
     challenges:
       'A 5,000-row CSV upload originally died on a 120-second server timeout because rows were written one by one; switching to ordered batch upserts fixed it. A full security audit (4 critical and 18 major findings) was then worked through fix by fix, including staff data scoping and encrypted secret storage.',
     outcome:
-      'Live in production with a 5,000-student cohort loaded, 34 backend tests passing and CI green — shipped through 30 reviewed and merged pull requests.',
+      'Live in production with a 5,000-student cohort loaded, 34 backend tests passing and CI green.',
     liveUrl: 'https://edupredict-blue.vercel.app',
     sourceUrl: 'https://github.com/shees-swe/edupredict',
   },
