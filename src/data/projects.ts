@@ -62,6 +62,39 @@ export const projects: Project[] = [
     liveUrl: 'https://edupredict-blue.vercel.app',
     sourceUrl: 'https://github.com/shees-swe/edupredict',
   },
+  {
+    id: 'eventsphere',
+    name: 'EventSphere',
+    kind: 'Full-Stack Web Application',
+    year: '2026',
+    summary:
+      'Expo and trade show management platform. Organizers publish expos and interactive floor plans, exhibitors claim booths and manage staff and compliance documents, and attendees discover events, sessions and exhibitors.',
+    problem:
+      'Expos run on paper registers, spreadsheets and WhatsApp bookings — booths get promised to two exhibitors at once, and nobody has a live picture of the floor.',
+    solution:
+      'One platform with three role portals: organizers build the booth inventory and floor plan first, exhibitors claim booths atomically (first claim wins) through an organizer approval queue, and attendees browse a live directory, schedules and exhibitor profiles.',
+    role: 'Sole developer — designed, built, secured and deployed end to end.',
+    stack: ['react', 'vite', 'node', 'express', 'mongodb'],
+    features: [
+      'Atomic booth claiming with an organizer approval queue — no double-booking',
+      'Interactive colour-coded floor plan: 50 booths per expo, live status',
+      'Three role portals: Admin, Exhibitor, Attendee',
+      'Compliance documents served privately — only the owner and admins can open them',
+      'Live public directory: 10 real Pakistani expos, 500 booths, 140 exhibitors',
+      'Sessions, workshops, tickets, staff management and exhibitor inquiries',
+    ],
+    decisions: [
+      'Inventory-first booth model: organizers create the booths, exhibitors claim them — a claim is a single conditional update that only succeeds while the booth is unclaimed',
+      'Public directory endpoints with a strict field allowlist, so the landing page shows real data without exposing exhibitor contact details',
+      'Private document storage behind authenticated, ownership-checked downloads instead of public upload URLs',
+    ],
+    challenges:
+      'A full security and correctness audit (44 findings) was worked through fix by fix — mass-assignment guards, role scoping, validation on every route — and a screen-by-screen QA pass over the live dashboards was closed out the same way, finding by finding.',
+    outcome:
+      'Live in production with 10 expos, 500 booths and 442 seeded accounts across the three roles — 39 backend test suites passing.',
+    liveUrl: 'https://eventsphere-frontend-eight.vercel.app',
+    sourceUrl: null,
+  },
 ];
 
 /** Copy for the empty state. */
