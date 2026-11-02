@@ -35,7 +35,7 @@
       href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="icon" href="/assets/logo.png" type="image/png" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -407,19 +407,12 @@
       .brand {
         display: inline-flex;
         align-items: center;
-        gap: 0.75rem;
       }
 
-      .brand__mark {
-        display: grid;
-        width: 2.5rem;
-        height: 2.5rem;
-        place-items: center;
-        border: 1px solid var(--line-strong);
-        border-radius: 50%;
-        font-size: 0.8125rem;
-        font-weight: 600;
-        letter-spacing: -0.01em;
+      .brand__logo {
+        display: block;
+        height: 2.75rem;
+        width: auto;
       }
 
       .desktop-links {
@@ -1388,6 +1381,10 @@
           padding-top: 1rem;
         }
 
+        .brand__logo {
+          height: 2.25rem;
+        }
+
         .desktop-links {
           display: none;
         }
@@ -1622,7 +1619,7 @@
     <header class="site-header">
       <nav class="site-nav" aria-label="Main navigation">
         <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
-          <span class="brand__mark" aria-hidden="true">MS</span>
+          <img class="brand__logo" src="/assets/logo.png" alt="" />
         </a>
         <ul class="desktop-links">
           <li><a class="nav-link" href="#about">About</a></li>
