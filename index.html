@@ -101,6 +101,75 @@
         font-size: 16px;
         scroll-behavior: smooth;
         scroll-padding-top: 6rem;
+        scrollbar-width: none;
+      }
+
+      html::-webkit-scrollbar {
+        display: none;
+        width: 0;
+        height: 0;
+      }
+
+      .crimson-scrollbar {
+        position: fixed;
+        z-index: 80;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 28px;
+        background: #000;
+        pointer-events: none;
+        user-select: none;
+      }
+
+      .crimson-scrollbar::before {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 1px;
+        width: 1px;
+        background: rgba(255, 30, 39, 0.38);
+        content: "";
+      }
+
+      .crimson-scrollbar__thumb {
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 26px;
+        min-height: 32px;
+        background: transparent;
+        cursor: grab;
+        filter: drop-shadow(0 0 14px #ff1e27);
+        pointer-events: auto;
+        touch-action: pan-y;
+        transition: filter 160ms ease;
+      }
+
+      .crimson-scrollbar__thumb::before {
+        position: absolute;
+        inset: 0;
+        clip-path: polygon(
+          100% 0,
+          100% calc(100% - 16px),
+          0 100%,
+          0 16px
+        );
+        background: linear-gradient(to bottom, #ff1e27, #800000);
+        content: "";
+        pointer-events: none;
+      }
+
+      .crimson-scrollbar__thumb:hover,
+      .crimson-scrollbar__thumb.is-dragging {
+        filter: drop-shadow(0 0 22px #ff1e27);
+        cursor: grabbing;
+      }
+
+      @media (hover: none), (pointer: coarse) {
+        .crimson-scrollbar__thumb {
+          pointer-events: none;
+        }
       }
 
       @media (max-width: 1920px) {
@@ -1535,6 +1604,21 @@
       <p class="preloader__count"><span id="counter">0</span><span>%</span></p>
     </div>
 
+    <div
+      class="crimson-scrollbar"
+      id="crimson-scrollbar"
+      role="scrollbar"
+      aria-label="Page scroll position"
+      aria-orientation="vertical"
+      aria-valuemin="0"
+      aria-valuemax="1"
+      aria-valuenow="0"
+      aria-valuetext="0%"
+      tabindex="0"
+    >
+      <div class="crimson-scrollbar__thumb" id="crimson-scrollbar-thumb"></div>
+    </div>
+
     <header class="site-header">
       <nav class="site-nav" aria-label="Main navigation">
         <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
@@ -1908,6 +1992,93 @@
 
       const lenis = new Lenis({ smoothWheel: true });
       window.lenis = lenis;
+      const scrollbar = document.getElementById("crimson-scrollbar");
+      const thumb = document.getElementById("crimson-scrollbar-thumb");
+      const root = document.documentElement;
+      let dragPointerId = null;
+      let dragOffset = 0;
+
+      function getScrollMetrics() {
+        const viewportHeight = root.clientHeight;
+        const scrollHeight = Math.max(root.scrollHeight, document.body.scrollHeight);
+        const maxScroll = Math.max(0, scrollHeight - viewportHeight);
+        const trackHeight = scrollbar.clientHeight;
+        const thumbHeight = Math.min(
+          trackHeight,
+          Math.max(32, (viewportHeight / Math.max(scrollHeight, 1)) * trackHeight),
+        );
+        const scrollTop = Math.min(maxScroll, Math.max(0, window.scrollY));
+        return { maxScroll, scrollTop, trackHeight, thumbHeight };
+      }
+
+      function updateScrollbar() {
+        const { maxScroll, scrollTop, trackHeight, thumbHeight } = getScrollMetrics();
+        const thumbTravel = Math.max(0, trackHeight - thumbHeight);
+        const progress = maxScroll > 0 ? scrollTop / maxScroll : 0;
+        thumb.style.height = `${thumbHeight}px`;
+        thumb.style.top = `${progress * thumbTravel}px`;
+        scrollbar.setAttribute("aria-valuemax", String(Math.max(maxScroll, 1)));
+        scrollbar.setAttribute("aria-valuenow", String(Math.round(scrollTop)));
+        scrollbar.setAttribute("aria-valuetext", `${Math.round(progress * 100)}%`);
+      }
+
+      function scrollToPosition(position) {
+        const maxScroll = getScrollMetrics().maxScroll;
+        const target = Math.min(maxScroll, Math.max(0, position));
+        if (window.lenis) window.lenis.scrollTo(target, { immediate: true });
+        else window.scrollTo({ top: target, behavior: "instant" });
+      }
+
+      thumb.addEventListener("pointerdown", (event) => {
+        if (event.pointerType !== "mouse" || event.button !== 0) return;
+        dragPointerId = event.pointerId;
+        dragOffset = event.clientY - thumb.getBoundingClientRect().top;
+        thumb.classList.add("is-dragging");
+        thumb.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      });
+
+      thumb.addEventListener("pointermove", (event) => {
+        if (event.pointerId !== dragPointerId) return;
+        const { maxScroll, trackHeight, thumbHeight } = getScrollMetrics();
+        const travel = Math.max(0, trackHeight - thumbHeight);
+        const top = Math.min(travel, Math.max(0, event.clientY - dragOffset));
+        scrollToPosition(travel > 0 ? (top / travel) * maxScroll : 0);
+      });
+
+      function finishDragging(event) {
+        if (event.pointerId !== dragPointerId) return;
+        dragPointerId = null;
+        thumb.classList.remove("is-dragging");
+        if (thumb.hasPointerCapture(event.pointerId)) thumb.releasePointerCapture(event.pointerId);
+      }
+
+      thumb.addEventListener("pointerup", finishDragging);
+      thumb.addEventListener("pointercancel", finishDragging);
+
+      scrollbar.addEventListener("keydown", (event) => {
+        const { maxScroll, scrollTop } = getScrollMetrics();
+        const pageStep = root.clientHeight * 0.9;
+        const targets = {
+          ArrowUp: scrollTop - 40,
+          ArrowDown: scrollTop + 40,
+          PageUp: scrollTop - pageStep,
+          PageDown: scrollTop + pageStep,
+          Home: 0,
+          End: maxScroll,
+        };
+        if (!Object.prototype.hasOwnProperty.call(targets, event.key)) return;
+        event.preventDefault();
+        scrollToPosition(targets[event.key]);
+      });
+
+      window.addEventListener("scroll", updateScrollbar, { passive: true });
+      window.addEventListener("resize", updateScrollbar, { passive: true });
+      window.addEventListener("load", updateScrollbar, { once: true });
+      new ResizeObserver(updateScrollbar).observe(document.body);
+      lenis.on("scroll", updateScrollbar);
+      updateScrollbar();
+
       const raf = (time) => {
         lenis.raf(time);
         requestAnimationFrame(raf);
