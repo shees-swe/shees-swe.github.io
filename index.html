@@ -555,14 +555,15 @@
       .hero {
         position: relative;
         display: flex;
-        min-height: 100svh;
+        height: 100vh;
+        height: 100svh;
         flex-direction: column;
         overflow: hidden;
         isolation: isolate;
         background-color: #000;
         background-image: url("/assets/hero-background.png");
         background-repeat: no-repeat;
-        background-position: center center;
+        background-position: top center;
         background-size: cover;
       }
 
@@ -1398,9 +1399,10 @@
         }
 
         .hero {
-          min-height: max(45rem, 100svh);
+          height: 100vh;
+          height: 100svh;
           background-image: url("/assets/hero-background-mobile.png");
-          background-position: center center;
+          background-position: top center;
           background-size: cover;
         }
 
