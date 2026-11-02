@@ -497,10 +497,11 @@
         flex-direction: column;
         overflow: hidden;
         isolation: isolate;
+        background-color: #000;
         background-image: url("/assets/hero-background.png");
         background-repeat: no-repeat;
         background-position: center center;
-        background-size: contain;
+        background-size: cover;
       }
 
       .hero__top {
@@ -546,15 +547,15 @@
         position: absolute;
         z-index: 10;
         right: -2%;
-        bottom: 0;
+        bottom: 2.5rem;
         left: -2%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transform: translateY(6%);
+        transform: none;
         color: var(--accent);
         font-family: var(--font-display);
-        font-size: clamp(5rem, 22vw, 28rem);
+        font-size: clamp(5rem, 20.5vw, 20rem);
         font-weight: 400;
         line-height: 0.78;
         letter-spacing: -0.015em;
@@ -1302,6 +1303,17 @@
         }
       }
 
+      @media (min-width: 768px) and (max-width: 1024px) {
+        .hero {
+          background-size: contain;
+        }
+
+        .hero__name {
+          bottom: 2.5rem;
+          font-size: clamp(7rem, 18vw, 12rem);
+        }
+      }
+
       @media (max-width: 767px) {
         .site-nav {
           padding-top: 1rem;
@@ -1321,6 +1333,9 @@
 
         .hero {
           min-height: max(45rem, 100svh);
+          background-image: url("/assets/hero-background-mobile.png");
+          background-position: center center;
+          background-size: cover;
         }
 
         .hero__top {
@@ -1339,8 +1354,12 @@
         }
 
         .hero__name {
-          bottom: 0;
-          font-size: clamp(4.5rem, 21vw, 9.5rem);
+          right: 0;
+          bottom: 3.75rem;
+          left: 0;
+          font-size: clamp(2.75rem, 15vw, 4.25rem);
+          line-height: 0.8;
+          letter-spacing: -0.02em;
         }
 
         .hero__gradient {
@@ -1348,7 +1367,7 @@
         }
 
         .hero__scroll {
-          bottom: 1.25rem;
+          bottom: 0.75rem;
         }
 
         .section {
@@ -1475,6 +1494,12 @@
 
         .project-links {
           flex-wrap: wrap;
+        }
+      }
+
+      @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+        .hero {
+          background-image: url("/assets/hero-background-mobile.png");
         }
       }
 
