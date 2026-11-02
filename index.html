@@ -35,7 +35,6 @@
       href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="preload" href="/assets/rose-covered-figure.webp" as="image" type="image/webp" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <script type="application/ld+json">
       {
@@ -354,19 +353,6 @@
         letter-spacing: -0.01em;
       }
 
-      .brand__name {
-        color: var(--muted);
-        font-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        transition: color 220ms ease;
-      }
-
-      .brand:hover .brand__name {
-        color: var(--foreground);
-      }
-
       .desktop-links {
         display: flex;
         align-items: center;
@@ -511,6 +497,11 @@
         flex-direction: column;
         overflow: hidden;
         isolation: isolate;
+        background-color: #000;
+        background-image: url("/assets/hero-background.png");
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
       }
 
       .hero__top {
@@ -552,57 +543,19 @@
         text-align: right;
       }
 
-      .hero__art {
-        position: absolute;
-        z-index: 20;
-        bottom: 0;
-        left: 50%;
-        width: 36vw;
-        height: 86vh;
-        transform: translateX(-50%);
-        mix-blend-mode: screen;
-        pointer-events: none;
-      }
-
-      .hero__filter {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
-      }
-
-      .hero__figure {
-        position: absolute;
-        inset: 0;
-        z-index: auto;
-      }
-
-      .hero__video {
-        position: absolute;
-        z-index: 2;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center bottom;
-        filter: url(#hero-liquid);
-        mix-blend-mode: screen;
-        pointer-events: auto;
-      }
-
       .hero__name {
         position: absolute;
         z-index: 10;
         right: -2%;
-        bottom: 0;
+        bottom: 2.5rem;
         left: -2%;
         display: flex;
         flex-direction: column;
         align-items: center;
-        transform: translateY(6%);
+        transform: none;
         color: var(--accent);
         font-family: var(--font-display);
-        font-size: clamp(5rem, 22vw, 28rem);
+        font-size: clamp(5rem, 20.5vw, 20rem);
         font-weight: 400;
         line-height: 0.78;
         letter-spacing: -0.015em;
@@ -616,30 +569,20 @@
         overflow: hidden;
       }
 
+      .hero__name-line + .hero__name-line {
+        color: #9e2416;
+      }
+
       .hero__name-line .char {
         display: inline-block;
         transform: translateY(115%);
-        opacity: 0;
-        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease;
+        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
         transition-delay: var(--delay, 0ms);
       }
 
       body.hero-revealed .hero__name-line .char,
       body.motion-complete .hero__name-line .char {
         transform: translateY(0);
-        opacity: 1;
-      }
-
-      .hero__portrait-glow {
-        position: absolute;
-        z-index: 1;
-        right: 15%;
-        bottom: -3rem;
-        left: 15%;
-        height: 72%;
-        border-radius: 50%;
-        background: radial-gradient(ellipse, rgba(255, 59, 29, 0.1), transparent 68%);
-        filter: blur(2rem);
       }
 
       .hero__gradient {
@@ -1269,21 +1212,18 @@
       body.js-enabled .hero__role span {
         display: inline-block;
         transform: translateY(110%);
-        opacity: 0;
-        transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1), opacity 500ms ease;
+        transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       body.hero-revealed .hero__role span,
       body.motion-complete .hero__role span {
         transform: translateY(0);
-        opacity: 1;
       }
 
       body.js-enabled .hero__description,
       body.js-enabled .hero__scroll {
         transform: translateY(1rem);
-        opacity: 0;
-        transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1), opacity 520ms ease;
+        transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
       }
 
       body.hero-revealed .hero__description,
@@ -1291,7 +1231,6 @@
       body.motion-complete .hero__description,
       body.motion-complete .hero__scroll {
         transform: translateY(0);
-        opacity: 1;
       }
 
       @media (min-width: 640px) {
@@ -1314,10 +1253,6 @@
       @media (max-width: 1023px) {
         .desktop-links {
           gap: 1.25rem;
-        }
-
-        .hero__art {
-          width: 58vw;
         }
 
         .hero__roles {
@@ -1368,12 +1303,22 @@
         }
       }
 
+      @media (min-width: 768px) and (max-width: 1024px) {
+        .hero {
+          background-size: contain;
+        }
+
+        .hero__name {
+          bottom: 2.5rem;
+          font-size: clamp(7rem, 18vw, 12rem);
+        }
+      }
+
       @media (max-width: 767px) {
         .site-nav {
           padding-top: 1rem;
         }
 
-        .brand__name,
         .desktop-links {
           display: none;
         }
@@ -1388,6 +1333,9 @@
 
         .hero {
           min-height: max(45rem, 100svh);
+          background-image: url("/assets/hero-background-mobile.png");
+          background-position: center center;
+          background-size: cover;
         }
 
         .hero__top {
@@ -1405,14 +1353,13 @@
           text-align: left;
         }
 
-        .hero__art {
-          width: 112vw;
-          height: 86vh;
-        }
-
         .hero__name {
-          bottom: 0;
-          font-size: clamp(4.5rem, 21vw, 9.5rem);
+          right: 0;
+          bottom: 3.75rem;
+          left: 0;
+          font-size: clamp(2.75rem, 15vw, 4.25rem);
+          line-height: 0.8;
+          letter-spacing: -0.02em;
         }
 
         .hero__gradient {
@@ -1420,7 +1367,7 @@
         }
 
         .hero__scroll {
-          bottom: 1.25rem;
+          bottom: 0.75rem;
         }
 
         .section {
@@ -1550,6 +1497,12 @@
         }
       }
 
+      @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
+        .hero {
+          background-image: url("/assets/hero-background-mobile.png");
+        }
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,
@@ -1586,7 +1539,6 @@
       <nav class="site-nav" aria-label="Main navigation">
         <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
           <span class="brand__mark" aria-hidden="true">MS</span>
-          <span class="brand__name">Muhammad Shees</span>
         </a>
         <ul class="desktop-links">
           <li><a class="nav-link" href="#about">About</a></li>
@@ -1631,41 +1583,6 @@
             I build web applications end to end — from React interfaces and APIs to databases,
             deployment and the details that make a product useful.
           </p>
-        </div>
-
-        <div class="hero__art" aria-hidden="true">
-          <svg class="hero__filter" aria-hidden="true" focusable="false">
-            <filter id="hero-liquid">
-              <feTurbulence
-                id="hero-turbulence"
-                type="fractalNoise"
-                baseFrequency="0.009"
-                numOctaves="2"
-                result="noise"
-              />
-              <feDisplacementMap
-                id="hero-displacement"
-                in="SourceGraphic"
-                in2="noise"
-                scale="1"
-              />
-            </filter>
-          </svg>
-          <div class="hero__portrait-glow"></div>
-          <figure class="hero__figure">
-            <video
-              class="hero__video"
-              id="hero-video"
-              src="/assets/rose-covered-figure.mp4"
-              poster="/assets/rose-covered-figure.webp"
-              autoplay
-              muted
-              loop
-              playsinline
-              preload="auto"
-              aria-hidden="true"
-            ></video>
-          </figure>
         </div>
 
         <h1 class="hero__name" id="hero-title" aria-label="Muhammad Shees">
@@ -2004,7 +1921,6 @@
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const preloader = document.getElementById("preloader");
         const counter = document.getElementById("counter");
-        const heroVideo = document.getElementById("hero-video");
         let loading = false;
 
         body.classList.add("js-enabled");
@@ -2168,42 +2084,6 @@
             `;
           });
         });
-
-        const displacement = document.getElementById("hero-displacement");
-        const turbulence = document.getElementById("hero-turbulence");
-        const canDistort = window.matchMedia("(hover: hover) and (min-width: 769px)");
-        if (displacement && turbulence && canDistort.matches) {
-          let animationFrame = 0;
-          let currentScale = 1;
-          let currentFrequency = 0.009;
-          let startTime = 0;
-          let fromScale = 1;
-          let toScale = 1;
-          let fromFrequency = 0.009;
-          let toFrequency = 0.009;
-
-          function animateDistortion(time) {
-            const progress = Math.min((time - startTime) / 520, 1);
-            const eased = 1 - (1 - progress) ** 4;
-            currentScale = fromScale + (toScale - fromScale) * eased;
-            currentFrequency = fromFrequency + (toFrequency - fromFrequency) * eased;
-            displacement.setAttribute("scale", currentScale.toFixed(2));
-            turbulence.setAttribute("baseFrequency", currentFrequency.toFixed(4));
-            if (progress < 1) animationFrame = requestAnimationFrame(animateDistortion);
-          }
-
-          function setDistortion(active) {
-            cancelAnimationFrame(animationFrame);
-            fromScale = currentScale;
-            fromFrequency = currentFrequency;
-            toScale = active ? 30 : 1;
-            toFrequency = active ? 0.022 : 0.009;
-            startTime = performance.now();
-            animationFrame = requestAnimationFrame(animateDistortion);
-          }
-          heroVideo.addEventListener("pointerenter", () => setDistortion(true));
-          heroVideo.addEventListener("pointerleave", () => setDistortion(false));
-        }
 
         if (!reducedMotion) {
           window.setTimeout(() => {
