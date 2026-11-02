@@ -515,7 +515,7 @@
 
       .hero__top {
         position: relative;
-        z-index: 5;
+        z-index: 30;
         display: flex;
         align-items: flex-start;
         justify-content: space-between;
@@ -554,12 +554,13 @@
 
       .hero__art {
         position: absolute;
-        z-index: auto;
+        z-index: 20;
         bottom: 0;
         left: 50%;
-        width: min(48vw, 42rem);
-        height: 87vh;
+        width: 36vw;
+        height: 86vh;
         transform: translateX(-50%);
+        mix-blend-mode: screen;
         pointer-events: none;
       }
 
@@ -582,7 +583,7 @@
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: contain;
+        object-fit: cover;
         object-position: center bottom;
         filter: url(#hero-liquid);
         mix-blend-mode: screen;
@@ -591,7 +592,7 @@
 
       .hero__name {
         position: absolute;
-        z-index: 1;
+        z-index: 10;
         right: -2%;
         bottom: 0;
         left: -2%;
@@ -654,7 +655,7 @@
 
       .hero__scroll {
         position: absolute;
-        z-index: 5;
+        z-index: 30;
         bottom: 2rem;
         left: var(--gutter);
         display: flex;
@@ -1405,12 +1406,12 @@
         }
 
         .hero__art {
-          width: 92vw;
-          height: 68vh;
+          width: 112vw;
+          height: 86vh;
         }
 
         .hero__name {
-          bottom: 2rem;
+          bottom: 0;
           font-size: clamp(4.5rem, 21vw, 9.5rem);
         }
 
