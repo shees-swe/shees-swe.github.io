@@ -411,7 +411,7 @@
 
       .brand__logo {
         display: block;
-        height: 2.75rem;
+        height: 3rem;
         width: auto;
       }
 
@@ -1382,7 +1382,7 @@
         }
 
         .brand__logo {
-          height: 2.25rem;
+          height: 2.5rem;
         }
 
         .desktop-links {
@@ -1922,6 +1922,20 @@
                 <span class="approach-rule" aria-hidden="true"></span>
               </button>
             </li>
+            <li>
+              <button type="button" aria-pressed="false" data-approach="3">
+                <span class="approach-number">04</span>
+                <span class="approach-name">Tested before it ships</span>
+                <span class="approach-rule" aria-hidden="true"></span>
+              </button>
+            </li>
+            <li>
+              <button type="button" aria-pressed="false" data-approach="4">
+                <span class="approach-number">05</span>
+                <span class="approach-name">Craft in the details</span>
+                <span class="approach-rule" aria-hidden="true"></span>
+              </button>
+            </li>
           </ul>
 
           <article class="approach-panel" id="approach-panel" aria-live="polite">
@@ -2234,6 +2248,14 @@
           {
             title: "AI with accountability",
             copy: "I use coding agents with MCP-connected tools and a written plan. The agents help with the legwork; I review changes, make the engineering calls and merge only what passes.",
+          },
+          {
+            title: "Tested before it ships",
+            copy: "Every project carries automated tests and CI: 34 backend tests on EduPredict, 39 test suites on EventSphere. If it is not green, it does not merge.",
+          },
+          {
+            title: "Craft in the details",
+            copy: "Interfaces get the same care as the backend: responsive layouts, motion and interaction where they serve the product, and every visual checked on a real screen before it ships.",
           },
         ];
         const approachButtons = document.querySelectorAll("[data-approach]");
