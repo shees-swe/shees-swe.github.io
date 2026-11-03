@@ -584,6 +584,32 @@
         height: 100%;
         object-fit: cover;
         object-position: top center;
+      }
+
+      .hero__artwork--liquid {
+        z-index: 1;
+        opacity: 0;
+        -webkit-mask-image: radial-gradient(
+          circle 260px at var(--mx, 50%) var(--my, 50%),
+          black 0%,
+          black 55%,
+          transparent 100%
+        );
+        mask-image: radial-gradient(
+          circle 260px at var(--mx, 50%) var(--my, 50%),
+          black 0%,
+          black 55%,
+          transparent 100%
+        );
+        mask-repeat: no-repeat;
+        transition: opacity 180ms ease;
+      }
+
+      .hero--liquid-active .hero__artwork--liquid {
+        opacity: 1;
+      }
+
+      .hero__artwork--liquid img {
         filter: url("#hero-liquid");
       }
 
@@ -1709,6 +1735,13 @@
           />
           <img src="/assets/hero-background.png" alt="" />
         </picture>
+        <picture class="hero__artwork hero__artwork--liquid" aria-hidden="true">
+          <source
+            media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
+            srcset="/assets/hero-background-mobile.png"
+          />
+          <img src="/assets/hero-background.png" alt="" />
+        </picture>
         <div class="hero__top">
           <h2 class="hero__roles" aria-label="Full-Stack Developer, Karachi, Pakistan">
             <span class="hero__role"><span>Full-Stack</span></span>
@@ -2212,8 +2245,19 @@
         let frequency = 0.009;
         let scaleVelocity = 0;
         let frequencyVelocity = 0;
+        let maskX = hero.clientWidth / 2;
+        let maskY = hero.clientHeight / 2;
+        let maskTargetX = maskX;
+        let maskTargetY = maskY;
+        let maskVelocityX = 0;
+        let maskVelocityY = 0;
         let frameId = 0;
         let previousTime = 0;
+
+        function setMaskPosition(x, y) {
+          hero.style.setProperty("--mx", `${x.toFixed(1)}px`);
+          hero.style.setProperty("--my", `${y.toFixed(1)}px`);
+        }
 
         function resetLiquidFilter() {
           scale = 1;
@@ -2239,25 +2283,44 @@
           const frequencyAcceleration =
             (targetFrequency - frequency) * spring.tension -
             frequencyVelocity * spring.friction;
+          const maskAccelerationX =
+            (maskTargetX - maskX) * spring.tension - maskVelocityX * spring.friction;
+          const maskAccelerationY =
+            (maskTargetY - maskY) * spring.tension - maskVelocityY * spring.friction;
 
           scaleVelocity += scaleAcceleration * delta;
           frequencyVelocity += frequencyAcceleration * delta;
+          maskVelocityX += maskAccelerationX * delta;
+          maskVelocityY += maskAccelerationY * delta;
           scale += scaleVelocity * delta;
           frequency += frequencyVelocity * delta;
+          maskX += maskVelocityX * delta;
+          maskY += maskVelocityY * delta;
           displacement.setAttribute("scale", scale.toFixed(3));
           turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
+          setMaskPosition(maskX, maskY);
 
           const scaleSettled = Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
           const frequencySettled =
             Math.abs(targetFrequency - frequency) < 0.00001 &&
             Math.abs(frequencyVelocity) < 0.00001;
-          if (scaleSettled && frequencySettled) {
+          const maskSettled =
+            Math.abs(maskTargetX - maskX) < 0.1 &&
+            Math.abs(maskTargetY - maskY) < 0.1 &&
+            Math.abs(maskVelocityX) < 0.1 &&
+            Math.abs(maskVelocityY) < 0.1;
+          if (scaleSettled && frequencySettled && maskSettled) {
             scale = targetScale;
             frequency = targetFrequency;
             scaleVelocity = 0;
             frequencyVelocity = 0;
+            maskX = maskTargetX;
+            maskY = maskTargetY;
+            maskVelocityX = 0;
+            maskVelocityY = 0;
             displacement.setAttribute("scale", String(scale));
             turbulence.setAttribute("baseFrequency", String(frequency));
+            setMaskPosition(maskX, maskY);
             frameId = 0;
             return;
           }
@@ -2277,21 +2340,49 @@
           startLiquidFilter();
         }
 
+        function updateMaskTarget(event) {
+          const bounds = hero.getBoundingClientRect();
+          maskTargetX = event.clientX - bounds.left;
+          maskTargetY = event.clientY - bounds.top;
+          startLiquidFilter();
+        }
+
         function disableLiquidFilter() {
           hovered = false;
+          hero.classList.remove("hero--liquid-active");
           if (frameId) window.cancelAnimationFrame(frameId);
           frameId = 0;
           resetLiquidFilter();
+          maskX = hero.clientWidth / 2;
+          maskY = hero.clientHeight / 2;
+          maskTargetX = maskX;
+          maskTargetY = maskY;
+          maskVelocityX = 0;
+          maskVelocityY = 0;
+          setMaskPosition(maskX, maskY);
         }
 
         function canAnimateLiquidFilter() {
           return desktopHover.matches && !reducedMotionQuery.matches;
         }
 
-        hero.addEventListener("pointerenter", () => {
-          if (canAnimateLiquidFilter()) setLiquidTarget(true);
+        hero.addEventListener("pointerenter", (event) => {
+          if (!canAnimateLiquidFilter()) return;
+          hero.classList.add("hero--liquid-active");
+          updateMaskTarget(event);
+          setLiquidTarget(true);
         });
-        hero.addEventListener("pointerleave", () => setLiquidTarget(false));
+        hero.addEventListener("pointermove", (event) => {
+          if (hovered && canAnimateLiquidFilter()) updateMaskTarget(event);
+        });
+        hero.addEventListener("pointerleave", () => {
+          hero.classList.remove("hero--liquid-active");
+          if (!canAnimateLiquidFilter()) {
+            disableLiquidFilter();
+            return;
+          }
+          setLiquidTarget(false);
+        });
         desktopHover.addEventListener("change", (event) => {
           if (!event.matches) disableLiquidFilter();
         });
