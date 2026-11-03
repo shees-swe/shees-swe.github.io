@@ -36,7 +36,6 @@
       rel="stylesheet"
     />
     <link rel="icon" href="/assets/logo.webp" type="image/webp" />
-    <link rel="modulepreload" href="/assets/lenis.mjs" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -2112,7 +2111,7 @@
     </main>
 
     <script type="module">
-      import Lenis from "/assets/lenis.mjs";
+      import Lenis from "lenis";
 
       const lenis = new Lenis({ smoothWheel: true });
       window.lenis = lenis;
