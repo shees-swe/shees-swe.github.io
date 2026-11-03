@@ -561,10 +561,30 @@
         overflow: hidden;
         isolation: isolate;
         background-color: #000;
-        background-image: url("/assets/hero-background.png");
-        background-repeat: no-repeat;
-        background-position: top center;
-        background-size: cover;
+      }
+
+      .hero__filters {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .hero__artwork {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        overflow: hidden;
+        pointer-events: none;
+      }
+
+      .hero__artwork img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        object-position: top center;
+        filter: url("#hero-liquid");
       }
 
       .hero__top {
@@ -572,7 +592,7 @@
         z-index: 30;
         display: flex;
         align-items: flex-start;
-        justify-content: space-between;
+        justify-content: flex-start;
         gap: 2rem;
         padding: 7rem var(--gutter) 0;
       }
@@ -599,7 +619,11 @@
       }
 
       .hero__description {
-        max-width: 26rem;
+        position: absolute;
+        z-index: 30;
+        right: var(--gutter);
+        bottom: 1.5rem;
+        width: clamp(14rem, 25vw, 26rem);
         color: var(--muted);
         font-size: 1.0625rem;
         line-height: 1.65;
@@ -609,31 +633,30 @@
       .hero__name {
         position: absolute;
         z-index: 10;
-        right: -2%;
-        bottom: 2.5rem;
-        left: -2%;
+        right: clamp(14rem, 30vw, 30rem);
+        bottom: 3.5rem;
+        left: var(--gutter);
         display: flex;
         flex-direction: column;
         align-items: center;
         transform: none;
-        color: var(--accent);
+        color: #e00018;
         font-family: var(--font-display);
-        font-size: clamp(5rem, 20.5vw, 20rem);
+        font-size: clamp(6rem, 13vw, 13rem);
         font-weight: 400;
-        line-height: 0.78;
-        letter-spacing: -0.015em;
+        line-height: 0.9;
+        letter-spacing: -0.02em;
         text-align: center;
         text-transform: uppercase;
-        white-space: nowrap;
       }
 
       .hero__name-line {
         display: block;
-        overflow: hidden;
+        white-space: nowrap;
       }
 
       .hero__name-line + .hero__name-line {
-        color: #9e2416;
+        color: #b00016;
       }
 
       .hero__name-line .char {
@@ -1367,13 +1390,8 @@
       }
 
       @media (min-width: 768px) and (max-width: 1024px) {
-        .hero {
-          background-size: contain;
-        }
-
         .hero__name {
-          bottom: 2.5rem;
-          font-size: clamp(7rem, 18vw, 12rem);
+          right: clamp(14rem, 30vw, 30rem);
         }
       }
 
@@ -1401,9 +1419,6 @@
         .hero {
           height: 100vh;
           height: 100svh;
-          background-image: url("/assets/hero-background-mobile.png");
-          background-position: top center;
-          background-size: cover;
         }
 
         .hero__top {
@@ -1417,16 +1432,17 @@
         }
 
         .hero__description {
-          max-width: 25rem;
-          text-align: left;
+          right: var(--gutter);
+          bottom: 4.25rem;
+          width: min(22rem, calc(100% - var(--gutter) - var(--gutter)));
         }
 
         .hero__name {
           right: 0;
-          bottom: 3.75rem;
+          bottom: 13rem;
           left: 0;
-          font-size: clamp(2.75rem, 15vw, 4.25rem);
-          line-height: 0.8;
+          font-size: clamp(2.25rem, 13vw, 3.75rem);
+          line-height: 0.9;
           letter-spacing: -0.02em;
         }
 
@@ -1556,6 +1572,10 @@
       }
 
       @media (max-width: 380px) {
+        .hero__name {
+          bottom: 16rem;
+        }
+
         .project-row {
           flex-direction: column;
         }
@@ -1566,8 +1586,8 @@
       }
 
       @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
-        .hero {
-          background-image: url("/assets/hero-background-mobile.png");
+        .hero__name {
+          bottom: 3rem;
         }
       }
 
@@ -1655,6 +1675,40 @@
 
     <main id="main">
       <section class="hero" id="top" aria-labelledby="hero-title">
+        <svg class="hero__filters" aria-hidden="true">
+          <filter
+            id="hero-liquid"
+            x="-15%"
+            y="-15%"
+            width="130%"
+            height="130%"
+            color-interpolation-filters="sRGB"
+          >
+            <feTurbulence
+              id="hero-liquid-turbulence"
+              type="fractalNoise"
+              baseFrequency="0.009"
+              numOctaves="2"
+              seed="3"
+              result="hero-noise"
+            />
+            <feDisplacementMap
+              id="hero-liquid-displacement"
+              in="SourceGraphic"
+              in2="hero-noise"
+              scale="1"
+              xChannelSelector="R"
+              yChannelSelector="G"
+            />
+          </filter>
+        </svg>
+        <picture class="hero__artwork" aria-hidden="true">
+          <source
+            media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
+            srcset="/assets/hero-background-mobile.png"
+          />
+          <img src="/assets/hero-background.png" alt="" />
+        </picture>
         <div class="hero__top">
           <h2 class="hero__roles" aria-label="Full-Stack Developer, Karachi, Pakistan">
             <span class="hero__role"><span>Full-Stack</span></span>
@@ -1662,16 +1716,16 @@
             <span class="hero__role"><span>Karachi</span></span>
             <span class="hero__role"><span>Pakistan</span></span>
           </h2>
-          <p class="hero__description">
-            I build web applications end to end — from React interfaces and APIs to databases,
-            deployment and the details that make a product useful.
-          </p>
         </div>
 
         <h1 class="hero__name" id="hero-title" aria-label="Muhammad Shees">
           <span class="hero__name-line" data-word="Muhammad">Muhammad</span>
           <span class="hero__name-line" data-word="Shees">Shees</span>
         </h1>
+        <p class="hero__description">
+          I build web applications end to end — from React interfaces and APIs to databases,
+          deployment and the details that make a product useful.
+        </p>
         <div class="hero__gradient" aria-hidden="true"></div>
         <a class="hero__scroll" href="#marquee">Scroll to explore</a>
       </section>
@@ -2143,6 +2197,111 @@
         });
         document.querySelector(".hero__description").style.transitionDelay = "400ms";
         document.querySelector(".hero__scroll").style.transitionDelay = "900ms";
+
+        const hero = document.querySelector(".hero");
+        const turbulence = document.getElementById("hero-liquid-turbulence");
+        const displacement = document.getElementById("hero-liquid-displacement");
+        const desktopHover = window.matchMedia(
+          "(min-width: 769px) and (hover: hover) and (pointer: fine)",
+        );
+        const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+        const spring = { tension: 140, friction: 13 };
+        let heroVisible = false;
+        let hovered = false;
+        let scale = 1;
+        let frequency = 0.009;
+        let scaleVelocity = 0;
+        let frequencyVelocity = 0;
+        let frameId = 0;
+        let previousTime = 0;
+
+        function resetLiquidFilter() {
+          scale = 1;
+          frequency = 0.009;
+          scaleVelocity = 0;
+          frequencyVelocity = 0;
+          displacement.setAttribute("scale", String(scale));
+          turbulence.setAttribute("baseFrequency", String(frequency));
+        }
+
+        function animateLiquidFilter(time) {
+          if (!heroVisible) {
+            frameId = 0;
+            return;
+          }
+
+          const delta = Math.min((time - previousTime) / 1000, 0.05);
+          previousTime = time;
+          const targetScale = hovered ? 30 : 1;
+          const targetFrequency = hovered ? 0.022 : 0.009;
+          const scaleAcceleration =
+            (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
+          const frequencyAcceleration =
+            (targetFrequency - frequency) * spring.tension -
+            frequencyVelocity * spring.friction;
+
+          scaleVelocity += scaleAcceleration * delta;
+          frequencyVelocity += frequencyAcceleration * delta;
+          scale += scaleVelocity * delta;
+          frequency += frequencyVelocity * delta;
+          displacement.setAttribute("scale", scale.toFixed(3));
+          turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
+
+          const scaleSettled = Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
+          const frequencySettled =
+            Math.abs(targetFrequency - frequency) < 0.00001 &&
+            Math.abs(frequencyVelocity) < 0.00001;
+          if (scaleSettled && frequencySettled) {
+            scale = targetScale;
+            frequency = targetFrequency;
+            scaleVelocity = 0;
+            frequencyVelocity = 0;
+            displacement.setAttribute("scale", String(scale));
+            turbulence.setAttribute("baseFrequency", String(frequency));
+            frameId = 0;
+            return;
+          }
+
+          frameId = window.requestAnimationFrame(animateLiquidFilter);
+        }
+
+        function startLiquidFilter() {
+          if (!heroVisible || frameId) return;
+          previousTime = performance.now();
+          frameId = window.requestAnimationFrame(animateLiquidFilter);
+        }
+
+        function setLiquidTarget(isHovered) {
+          hovered = isHovered;
+          if (!heroVisible) return;
+          startLiquidFilter();
+        }
+
+        function disableLiquidFilter() {
+          hovered = false;
+          if (frameId) window.cancelAnimationFrame(frameId);
+          frameId = 0;
+          resetLiquidFilter();
+        }
+
+        function canAnimateLiquidFilter() {
+          return desktopHover.matches && !reducedMotionQuery.matches;
+        }
+
+        hero.addEventListener("pointerenter", () => {
+          if (canAnimateLiquidFilter()) setLiquidTarget(true);
+        });
+        hero.addEventListener("pointerleave", () => setLiquidTarget(false));
+        desktopHover.addEventListener("change", (event) => {
+          if (!event.matches) disableLiquidFilter();
+        });
+        reducedMotionQuery.addEventListener("change", (event) => {
+          if (event.matches) disableLiquidFilter();
+        });
+        new IntersectionObserver(([entry]) => {
+          heroVisible = entry.isIntersecting;
+          if (!heroVisible) disableLiquidFilter();
+        }).observe(hero);
 
         if (reducedMotion) {
           body.classList.add("motion-complete");
