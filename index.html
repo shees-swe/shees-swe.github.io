@@ -590,15 +590,15 @@
         z-index: 1;
         opacity: 0;
         -webkit-mask-image: radial-gradient(
-          circle 260px at var(--mx, 50%) var(--my, 50%),
+          circle 150px at var(--mx, 50%) var(--my, 50%),
           black 0%,
-          black 55%,
+          black 50%,
           transparent 100%
         );
         mask-image: radial-gradient(
-          circle 260px at var(--mx, 50%) var(--my, 50%),
+          circle 150px at var(--mx, 50%) var(--my, 50%),
           black 0%,
-          black 55%,
+          black 50%,
           transparent 100%
         );
         mask-repeat: no-repeat;
@@ -2240,11 +2240,16 @@
         const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
         const spring = { tension: 140, friction: 13 };
         let heroVisible = false;
-        let hovered = false;
+        let pointerActive = false;
         let scale = 1;
         let frequency = 0.009;
         let scaleVelocity = 0;
         let frequencyVelocity = 0;
+        let pointerVelocity = 0;
+        let lastPointerX = 0;
+        let lastPointerY = 0;
+        let lastPointerTime = 0;
+        let movementTimeout = 0;
         let maskX = hero.clientWidth / 2;
         let maskY = hero.clientHeight / 2;
         let maskTargetX = maskX;
@@ -2276,8 +2281,11 @@
 
           const delta = Math.min((time - previousTime) / 1000, 0.05);
           previousTime = time;
-          const targetScale = hovered ? 30 : 1;
-          const targetFrequency = hovered ? 0.022 : 0.009;
+          const movementStrength = pointerActive
+            ? Math.min(pointerVelocity / 12, 1)
+            : 0;
+          const targetScale = 1 + movementStrength * 54;
+          const targetFrequency = 0.009 + movementStrength * 0.019;
           const scaleAcceleration =
             (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
           const frequencyAcceleration =
@@ -2334,21 +2342,47 @@
           frameId = window.requestAnimationFrame(animateLiquidFilter);
         }
 
-        function setLiquidTarget(isHovered) {
-          hovered = isHovered;
-          if (!heroVisible) return;
+        function updateMaskTarget(event) {
+          const bounds = hero.getBoundingClientRect();
+          const x = event.clientX - bounds.left;
+          const y = event.clientY - bounds.top;
+          const now = performance.now();
+          const elapsed = Math.max(now - lastPointerTime, 1);
+          const distance = Math.hypot(x - lastPointerX, y - lastPointerY);
+          pointerVelocity = (distance / elapsed) * 16;
+          lastPointerX = x;
+          lastPointerY = y;
+          lastPointerTime = now;
+          maskTargetX = x;
+          maskTargetY = y;
+          pointerActive = pointerVelocity > 0.05;
+          hero.classList.toggle("hero--liquid-active", pointerActive);
+          if (movementTimeout) window.clearTimeout(movementTimeout);
+          movementTimeout = window.setTimeout(() => {
+            pointerActive = false;
+            pointerVelocity = 0;
+            movementTimeout = 0;
+            hero.classList.remove("hero--liquid-active");
+            startLiquidFilter();
+          }, 120);
           startLiquidFilter();
         }
 
-        function updateMaskTarget(event) {
-          const bounds = hero.getBoundingClientRect();
-          maskTargetX = event.clientX - bounds.left;
-          maskTargetY = event.clientY - bounds.top;
+        function stopPointerEffect() {
+          pointerActive = false;
+          pointerVelocity = 0;
+          if (movementTimeout) window.clearTimeout(movementTimeout);
+          movementTimeout = 0;
+          hero.classList.remove("hero--liquid-active");
           startLiquidFilter();
         }
 
         function disableLiquidFilter() {
-          hovered = false;
+          pointerActive = false;
+          pointerVelocity = 0;
+          lastPointerTime = 0;
+          if (movementTimeout) window.clearTimeout(movementTimeout);
+          movementTimeout = 0;
           hero.classList.remove("hero--liquid-active");
           if (frameId) window.cancelAnimationFrame(frameId);
           frameId = 0;
@@ -2368,20 +2402,20 @@
 
         hero.addEventListener("pointerenter", (event) => {
           if (!canAnimateLiquidFilter()) return;
-          hero.classList.add("hero--liquid-active");
+          lastPointerX = event.clientX - hero.getBoundingClientRect().left;
+          lastPointerY = event.clientY - hero.getBoundingClientRect().top;
+          lastPointerTime = performance.now();
           updateMaskTarget(event);
-          setLiquidTarget(true);
         });
         hero.addEventListener("pointermove", (event) => {
-          if (hovered && canAnimateLiquidFilter()) updateMaskTarget(event);
+          if (canAnimateLiquidFilter()) updateMaskTarget(event);
         });
         hero.addEventListener("pointerleave", () => {
-          hero.classList.remove("hero--liquid-active");
           if (!canAnimateLiquidFilter()) {
             disableLiquidFilter();
             return;
           }
-          setLiquidTarget(false);
+          stopPointerEffect();
         });
         desktopHover.addEventListener("change", (event) => {
           if (!event.matches) disableLiquidFilter();
