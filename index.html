@@ -35,7 +35,8 @@
       href="https://fonts.googleapis.com/css2?family=Anton&family=Onest:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
-    <link rel="icon" href="/assets/logo.png" type="image/png" />
+    <link rel="icon" href="/assets/logo.webp" type="image/webp" />
+    <link rel="modulepreload" href="/assets/lenis.mjs" />
     <script type="application/ld+json">
       {
         "@context": "https://schema.org",
@@ -351,6 +352,7 @@
         justify-content: space-between;
         padding: var(--gutter);
         background: var(--background);
+        pointer-events: none;
         will-change: transform;
       }
 
@@ -385,10 +387,6 @@
       .preloader.is-leaving {
         transform: translateY(-100%);
         transition: transform 650ms cubic-bezier(0.22, 1, 0.36, 1);
-      }
-
-      body.is-loading {
-        overflow: hidden;
       }
 
       body.menu-open {
@@ -1695,7 +1693,7 @@
     <header class="site-header">
       <nav class="site-nav" aria-label="Main navigation">
         <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
-          <img class="brand__logo" src="/assets/logo.png" alt="" />
+          <img class="brand__logo" src="/assets/logo.webp" alt="" decoding="async" />
         </a>
         <ul class="desktop-links">
           <li><a class="nav-link" href="#about">About</a></li>
@@ -1759,16 +1757,21 @@
         <picture class="hero__artwork" aria-hidden="true">
           <source
             media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
-            srcset="/assets/hero-background-mobile.png"
+            srcset="/assets/hero-background-mobile.webp"
           />
-          <img src="/assets/hero-background.png" alt="" />
+          <img
+            src="/assets/hero-background.webp"
+            alt=""
+            fetchpriority="high"
+            decoding="async"
+          />
         </picture>
         <picture class="hero__artwork hero__artwork--liquid" aria-hidden="true">
           <source
             media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
-            srcset="/assets/hero-background-mobile.png"
+            srcset="/assets/hero-background-mobile.webp"
           />
-          <img src="/assets/hero-background.png" alt="" />
+          <img src="/assets/hero-background.webp" alt="" decoding="async" />
         </picture>
         <div class="hero__top">
           <h2 class="hero__roles" aria-label="Full-Stack Developer, Karachi, Pakistan">
@@ -2108,15 +2111,8 @@
       </footer>
     </main>
 
-    <script type="importmap">
-      {
-        "imports": {
-          "lenis": "https://cdn.jsdelivr.net/npm/lenis@1.3.19/dist/lenis.mjs"
-        }
-      }
-    </script>
     <script type="module">
-      import Lenis from "lenis";
+      import Lenis from "/assets/lenis.mjs";
 
       const lenis = new Lenis({ smoothWheel: true });
       window.lenis = lenis;
@@ -2212,9 +2208,8 @@
         requestAnimationFrame(raf);
       };
       requestAnimationFrame(raf);
-      if (document.body.classList.contains("is-loading")) lenis.stop();
     </script>
-    <script>
+    <script type="module">
       (() => {
         const body = document.body;
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -2464,33 +2459,25 @@
         } else {
           loading = true;
           body.classList.add("is-loading");
-          window.scrollTo(0, 0);
-          if (window.lenis) window.lenis.stop();
 
           const start = performance.now();
           function count(time) {
-            const progress = Math.min((time - start) / 2000, 1);
+            const progress = Math.min((time - start) / 350, 1);
             counter.textContent = String(Math.round(progress * 100));
             if (progress < 1) {
               requestAnimationFrame(count);
-              return;
             }
-            preloader.classList.add("is-labels-hidden");
-            window.setTimeout(() => {
-              preloader.classList.add("is-leaving");
-              preloader.addEventListener(
-                "transitionend",
-                () => {
-                  preloader.setAttribute("aria-hidden", "true");
-                  loading = false;
-                  body.classList.remove("is-loading");
-                  if (window.lenis) window.lenis.start();
-                },
-                { once: true },
-              );
-            }, 200);
           }
           requestAnimationFrame(count);
+          window.setTimeout(() => {
+            counter.textContent = "100";
+            preloader.classList.add("is-labels-hidden", "is-leaving");
+          }, 350);
+          window.setTimeout(() => {
+            preloader.setAttribute("aria-hidden", "true");
+            loading = false;
+            body.classList.remove("is-loading");
+          }, 1000);
 
           window.setTimeout(() => body.classList.add("hero-revealed"), 2500);
           window.setTimeout(() => body.classList.add("hero-revealed"), 2900);
