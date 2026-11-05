@@ -904,6 +904,12 @@
         margin-top: var(--space-8);
       }
 
+      @media (min-width: 769px) {
+        .project-card:nth-child(even) {
+          margin-top: 4.5rem;
+        }
+      }
+
       .project-art {
         position: relative;
         display: flex;
@@ -935,12 +941,17 @@
         z-index: 2;
         inset: 0;
         background: radial-gradient(
-          75% 90% at 0% 100%,
-          color-mix(in srgb, var(--accent) 22%, transparent),
-          transparent 70%
+          75% 90% at 68% 48%,
+          color-mix(in srgb, var(--accent) 35%, transparent),
+          transparent 68%
         );
         content: "";
+        opacity: 0;
         pointer-events: none;
+        transition: opacity 380ms ease-out;
+      }
+      .project-art.is-hovered .project-art__media::after {
+        opacity: 1;
       }
       .project-art__img {
         position: absolute;
