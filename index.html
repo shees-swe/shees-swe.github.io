@@ -928,6 +928,10 @@
       .project-art__caption {
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
       }
+      .project-art__img--fit {
+        object-fit: contain;
+        background: #fffcf2;
+      }
 
       .project-card:hover .project-art {
         transform: scale(0.985);
@@ -1948,7 +1952,7 @@
                 rel="noreferrer noopener"
                 aria-label="Open EventSphere live site"
               >
-                <img class="project-art__img" src="/assets/eventsphere-landing.svg" alt="EventSphere landing page" loading="lazy" />
+                <img class="project-art__img project-art__img--fit" src="/assets/eventsphere-landing.svg" alt="EventSphere landing page" loading="lazy" />
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Expo &amp; trade-show management</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
