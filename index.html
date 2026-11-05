@@ -675,7 +675,7 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        transform: none;
+        transform: translateZ(0);
         color: #e00018;
         font-family: var(--font-display);
         font-size: clamp(6rem, 13vw, 13rem);
@@ -2278,6 +2278,7 @@
         document.querySelector(".hero__scroll").style.transitionDelay = "900ms";
 
         const hero = document.querySelector(".hero");
+        const liquidArtwork = hero.querySelector(".hero__artwork--liquid");
         const turbulence = document.getElementById("hero-liquid-turbulence");
         const displacement = document.getElementById("hero-liquid-displacement");
         const desktopHover = window.matchMedia(
@@ -2306,8 +2307,9 @@
         let previousTime = 0;
 
         function setMaskPosition(x, y) {
-          hero.style.setProperty("--mx", `${x.toFixed(1)}px`);
-          hero.style.setProperty("--my", `${y.toFixed(1)}px`);
+          if (!liquidArtwork) return;
+          liquidArtwork.style.setProperty("--mx", `${x.toFixed(1)}px`);
+          liquidArtwork.style.setProperty("--my", `${y.toFixed(1)}px`);
         }
 
         function resetLiquidFilter() {
