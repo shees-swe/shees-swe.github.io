@@ -261,7 +261,7 @@
       main {
         position: relative;
         width: 100%;
-        overflow: hidden;
+        overflow: clip;
       }
 
       .skip-link {
@@ -904,6 +904,12 @@
         margin-top: var(--space-8);
       }
 
+      @media (min-width: 769px) {
+        .project-card:nth-child(even) {
+          margin-top: 6rem;
+        }
+      }
+
       .project-art {
         position: relative;
         display: flex;
@@ -916,23 +922,92 @@
         background: var(--surface);
         transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
       }
+      .project-art__media {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        overflow: hidden;
+        background: var(--surface);
+        pointer-events: none;
+      }
+      .project-art__media--edu {
+        background: #0c0c0a;
+      }
+      .project-art__media--event {
+        background: #fffcf2;
+      }
+      .project-art__media::after {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+        background: radial-gradient(
+          45% 65% at 68% 48%,
+          color-mix(in srgb, var(--accent) 25%, transparent),
+          transparent 68%
+        );
+        content: "";
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 380ms ease-out;
+      }
+      .project-art.is-hovered .project-art__media::after {
+        opacity: 1;
+      }
       .project-art__img {
         position: absolute;
-        z-index: -1;
+        z-index: 0;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
         object-position: center;
+        filter: grayscale(1);
+        transition: filter 380ms ease-out;
+      }
+      .project-art__img--liquid {
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 380ms ease-out;
+      }
+      .project-art[data-liquid-filter="edupredict-project-liquid"] .project-art__img--liquid {
+        filter: url(#edupredict-project-liquid);
+      }
+      .project-art[data-liquid-filter="eventsphere-project-liquid"] .project-art__img--liquid {
+        filter: url(#eventsphere-project-liquid);
+      }
+      .project-art.is-liquid-active .project-art__img--liquid {
+        opacity: 1;
+      }
+      .project-art__glow {
+        position: absolute;
+        z-index: 3;
+        inset: 0;
+        pointer-events: none;
+        background: linear-gradient(
+          120deg,
+          transparent 30%,
+          color-mix(in srgb, var(--accent) 35%, transparent) 50%,
+          transparent 70%
+        );
+        background-position: -100% 0;
+        background-size: 200% 100%;
+        opacity: 0;
+        transition:
+          background-position 650ms cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 220ms ease-out;
+      }
+      .project-art.is-hovered .project-art__glow {
+        background-position: 100% 0;
+        opacity: 1;
+      }
+      .project-art__filters {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
       }
       .project-art__caption {
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
-      }
-      .project-art__img--edu {
-        background: #0c0c0a;
-      }
-      .project-art__img--event {
-        background: #fffcf2;
       }
 
       .project-card:hover .project-art {
@@ -961,7 +1036,7 @@
 
       .project-art__grid {
         position: absolute;
-        z-index: -1;
+        z-index: 5;
         inset: 0;
         opacity: 0.5;
         background-image: linear-gradient(rgba(243, 241, 234, 0.08) 1px, transparent 1px),
@@ -980,6 +1055,7 @@
       }
 
       .project-art__mark {
+        z-index: 6;
         display: grid;
         width: 3.25rem;
         height: 3.25rem;
@@ -993,6 +1069,7 @@
 
       .project-art__caption {
         position: absolute;
+        z-index: 6;
         top: 1.25rem;
         left: 1.25rem;
         color: rgba(243, 241, 234, 0.6);
@@ -1124,6 +1201,33 @@
         margin-top: var(--space-8);
       }
 
+      .approach-track {
+        position: relative;
+      }
+
+      @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+        .approach-track {
+          height: 600vh;
+          height: 600svh;
+        }
+
+        .approach-section {
+          position: sticky;
+          top: 0;
+          display: flex;
+          height: 100vh;
+          height: 100svh;
+          flex-direction: column;
+          justify-content: center;
+          padding-top: clamp(2rem, 7vh, 5rem);
+          padding-bottom: clamp(2rem, 7vh, 5rem);
+        }
+
+        .approach-section > .approach-grid {
+          min-height: 0;
+        }
+      }
+
       .approach-list button {
         display: flex;
         width: 100%;
@@ -1210,6 +1314,29 @@
         color: var(--muted);
         font-size: 1.0625rem;
         line-height: 1.7;
+      }
+
+      .approach-word {
+        display: inline-block;
+        animation: approach-word-in 520ms cubic-bezier(0.165, 0.84, 0.44, 1) both;
+        animation-delay: calc(var(--word-index) * 22ms);
+      }
+
+      @keyframes approach-word-in {
+        from {
+          opacity: 0;
+          transform: translateY(0.75rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .approach-word {
+          animation: none;
+        }
       }
 
       .contact {
@@ -1907,12 +2034,55 @@
             <article>
               <a
                 class="project-art project-art--edu"
+                data-liquid-filter="edupredict-project-liquid"
                 href="https://edupredict-blue.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EduPredict live site"
               >
-                <img class="project-art__img project-art__img--edu" src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg" alt="EduPredict landing page" loading="lazy" />
+                <div class="project-art__media project-art__media--edu">
+                  <svg class="project-art__filters" aria-hidden="true">
+                    <defs>
+                      <filter
+                        id="edupredict-project-liquid"
+                        x="-50%"
+                        y="-50%"
+                        width="200%"
+                        height="200%"
+                        color-interpolation-filters="sRGB"
+                      >
+                        <feTurbulence
+                          type="fractalNoise"
+                          baseFrequency="0.009"
+                          numOctaves="2"
+                          seed="3"
+                          result="noise"
+                        />
+                        <feDisplacementMap
+                          in="SourceGraphic"
+                          in2="noise"
+                          scale="1"
+                          xChannelSelector="R"
+                          yChannelSelector="G"
+                        />
+                      </filter>
+                    </defs>
+                  </svg>
+                  <img
+                    class="project-art__img"
+                    src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg"
+                    alt="EduPredict landing page"
+                    loading="lazy"
+                  />
+                  <img
+                    class="project-art__img project-art__img--liquid"
+                    src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span class="project-art__glow"></span>
+                </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Student analytics platform</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
@@ -1949,12 +2119,55 @@
             <article>
               <a
                 class="project-art project-art--event"
+                data-liquid-filter="eventsphere-project-liquid"
                 href="https://eventsphere-frontend-eight.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EventSphere live site"
               >
-                <img class="project-art__img project-art__img--event" src="/assets/eventsphere-landing.webp" alt="EventSphere landing page" loading="lazy" />
+                <div class="project-art__media project-art__media--event">
+                  <svg class="project-art__filters" aria-hidden="true">
+                    <defs>
+                      <filter
+                        id="eventsphere-project-liquid"
+                        x="-50%"
+                        y="-50%"
+                        width="200%"
+                        height="200%"
+                        color-interpolation-filters="sRGB"
+                      >
+                        <feTurbulence
+                          type="fractalNoise"
+                          baseFrequency="0.009"
+                          numOctaves="2"
+                          seed="3"
+                          result="noise"
+                        />
+                        <feDisplacementMap
+                          in="SourceGraphic"
+                          in2="noise"
+                          scale="1"
+                          xChannelSelector="R"
+                          yChannelSelector="G"
+                        />
+                      </filter>
+                    </defs>
+                  </svg>
+                  <img
+                    class="project-art__img"
+                    src="/assets/eventsphere-landing.webp"
+                    alt="EventSphere landing page"
+                    loading="lazy"
+                  />
+                  <img
+                    class="project-art__img project-art__img--liquid"
+                    src="/assets/eventsphere-landing.webp"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span class="project-art__glow"></span>
+                </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Expo &amp; trade-show management</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
@@ -2032,63 +2245,65 @@
         </dl>
       </section>
 
-      <section class="section" id="approach" aria-labelledby="approach-title">
-        <div data-reveal>
-          <p class="eyebrow">How I work</p>
-          <h2 class="section-heading" id="approach-title">
-            <span class="line-mask"><span class="line-inner">Built with care.</span></span>
-          </h2>
-        </div>
+      <div class="approach-track">
+        <section class="section approach-section" id="approach" aria-labelledby="approach-title">
+          <div data-reveal>
+            <p class="eyebrow">How I work</p>
+            <h2 class="section-heading" id="approach-title">
+              <span class="line-mask"><span class="line-inner">Built with care.</span></span>
+            </h2>
+          </div>
 
-        <div class="approach-grid">
-          <ul class="approach-list" aria-label="Work principles">
-            <li>
-              <button type="button" aria-pressed="true" data-approach="0">
-                <span class="approach-number">01</span>
-                <span class="approach-name">End-to-end ownership</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="1">
-                <span class="approach-number">02</span>
-                <span class="approach-name">Security in the build</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="2">
-                <span class="approach-number">03</span>
-                <span class="approach-name">AI with accountability</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="3">
-                <span class="approach-number">04</span>
-                <span class="approach-name">Tested before it ships</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="4">
-                <span class="approach-number">05</span>
-                <span class="approach-name">Craft in the details</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-          </ul>
+          <div class="approach-grid">
+            <ul class="approach-list" aria-label="Work principles">
+              <li>
+                <button type="button" aria-pressed="true" data-approach="0">
+                  <span class="approach-number">01</span>
+                  <span class="approach-name">End-to-end ownership</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="1">
+                  <span class="approach-number">02</span>
+                  <span class="approach-name">Security in the build</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="2">
+                  <span class="approach-number">03</span>
+                  <span class="approach-name">AI with accountability</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="3">
+                  <span class="approach-number">04</span>
+                  <span class="approach-name">Tested before it ships</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="4">
+                  <span class="approach-number">05</span>
+                  <span class="approach-name">Craft in the details</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+            </ul>
 
-          <article class="approach-panel" id="approach-panel" aria-live="polite">
-            <p class="approach-panel__index">01 / Working principle</p>
-            <h3>End-to-end ownership</h3>
-            <p>
-              I take products from interface and APIs through databases, deployment, testing and
-              security fixes — working across the stack instead of stopping at a single layer.
-            </p>
-          </article>
-        </div>
-      </section>
+            <article class="approach-panel" id="approach-panel" aria-live="polite">
+              <p class="approach-panel__index">01 / Working principle</p>
+              <h3>End-to-end ownership</h3>
+              <p>
+                I take products from interface and APIs through databases, deployment, testing and
+                security fixes — working across the stack instead of stopping at a single layer.
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
 
       <footer class="contact" id="contact" aria-labelledby="contact-title">
         <div data-reveal>
@@ -2454,6 +2669,91 @@
           return desktopHover.matches && !reducedMotionQuery.matches;
         }
 
+        document.querySelectorAll(".project-art[data-liquid-filter]").forEach((card) => {
+          const filter = document.getElementById(card.dataset.liquidFilter);
+          const turbulence = filter.querySelector("feTurbulence");
+          const displacement = filter.querySelector("feDisplacementMap");
+          const spring = { tension: 140, friction: 13 };
+          let scale = 1;
+          let frequency = 0.009;
+          let targetScale = scale;
+          let targetFrequency = frequency;
+          let scaleVelocity = 0;
+          let frequencyVelocity = 0;
+          let frameId = 0;
+          let previousTime = 0;
+
+          function animate(time) {
+            const delta = Math.min((time - previousTime) / 1000, 0.05);
+            previousTime = time;
+            const scaleAcceleration =
+              (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
+            const frequencyAcceleration =
+              (targetFrequency - frequency) * spring.tension -
+              frequencyVelocity * spring.friction;
+
+            scaleVelocity += scaleAcceleration * delta;
+            frequencyVelocity += frequencyAcceleration * delta;
+            scale += scaleVelocity * delta;
+            frequency += frequencyVelocity * delta;
+            displacement.setAttribute("scale", scale.toFixed(3));
+            turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
+
+            const scaleSettled =
+              Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
+            const frequencySettled =
+              Math.abs(targetFrequency - frequency) < 0.00001 &&
+              Math.abs(frequencyVelocity) < 0.00001;
+            if (scaleSettled && frequencySettled) {
+              scale = targetScale;
+              frequency = targetFrequency;
+              scaleVelocity = 0;
+              frequencyVelocity = 0;
+              displacement.setAttribute("scale", String(scale));
+              turbulence.setAttribute("baseFrequency", String(frequency));
+              frameId = 0;
+              return;
+            }
+
+            frameId = window.requestAnimationFrame(animate);
+          }
+
+          function startAnimation() {
+            if (frameId) return;
+            previousTime = performance.now();
+            frameId = window.requestAnimationFrame(animate);
+          }
+
+          function activate() {
+            if (!canAnimateLiquidFilter()) return;
+            card.classList.add("is-hovered", "is-liquid-active");
+            targetScale = 28;
+            targetFrequency = 0.022;
+            startAnimation();
+          }
+
+          function deactivate() {
+            card.classList.remove("is-hovered", "is-liquid-active");
+            targetScale = 1;
+            targetFrequency = 0.009;
+            startAnimation();
+          }
+
+          card.addEventListener("pointerenter", (event) => {
+            if (event.pointerType === "touch") return;
+            activate();
+          });
+          card.addEventListener("pointerleave", deactivate);
+          card.addEventListener("focus", activate);
+          card.addEventListener("blur", deactivate);
+          desktopHover.addEventListener("change", (event) => {
+            if (!event.matches) deactivate();
+          });
+          reducedMotionQuery.addEventListener("change", (event) => {
+            if (event.matches) deactivate();
+          });
+        });
+
         hero.addEventListener("pointerenter", (event) => {
           if (!canAnimateLiquidFilter()) return;
           lastPointerX = event.clientX - hero.getBoundingClientRect().left;
@@ -2600,20 +2900,99 @@
         ];
         const approachButtons = document.querySelectorAll("[data-approach]");
         const approachPanel = document.getElementById("approach-panel");
+        const approachTrack = document.querySelector(".approach-track");
+        const approachSection = document.getElementById("approach");
+        const desktopApproach = window.matchMedia("(min-width: 1024px)");
+        let activeApproachIndex = -1;
+        let approachObserver = null;
+        let approachFrame = 0;
+
+        function appendWordReveal(element, text) {
+          text.split(/\s+/).forEach((word, index) => {
+            if (index > 0) element.append(document.createTextNode(" "));
+            const span = document.createElement("span");
+            span.className = "approach-word";
+            span.style.setProperty("--word-index", String(index));
+            span.textContent = word;
+            element.append(span);
+          });
+        }
+
+        function setActiveApproach(index) {
+          const content = approachContent[index];
+          if (!content || activeApproachIndex === index) return;
+          activeApproachIndex = index;
+          approachButtons.forEach((button) => {
+            button.setAttribute(
+              "aria-pressed",
+              Number(button.dataset.approach) === index ? "true" : "false",
+            );
+          });
+
+          const panelIndex = document.createElement("p");
+          panelIndex.className = "approach-panel__index";
+          panelIndex.textContent = `${String(index + 1).padStart(2, "0")} / Working principle`;
+          const title = document.createElement("h3");
+          appendWordReveal(title, content.title);
+          const copy = document.createElement("p");
+          appendWordReveal(copy, content.copy);
+          approachPanel.replaceChildren(panelIndex, title, copy);
+        }
+
+        function updateApproachFromScroll() {
+          approachFrame = 0;
+          if (!desktopApproach.matches || reducedMotionQuery.matches) return;
+          const start = approachTrack.getBoundingClientRect().top + window.scrollY;
+          const travel = Math.max(1, approachTrack.offsetHeight - approachSection.offsetHeight);
+          const progress = Math.min(1, Math.max(0, (window.scrollY - start) / travel));
+          const index = Math.min(
+            approachButtons.length - 1,
+            Math.floor(progress * approachButtons.length),
+          );
+          setActiveApproach(index);
+        }
+
+        function configureApproachScroll() {
+          if (approachObserver) {
+            approachObserver.disconnect();
+            approachObserver = null;
+          }
+          if (reducedMotionQuery.matches) return;
+          if (desktopApproach.matches) {
+            updateApproachFromScroll();
+            return;
+          }
+
+          approachObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                setActiveApproach(Number(entry.target.dataset.approach));
+              });
+            },
+            { rootMargin: "-42% 0px -42% 0px", threshold: 0 },
+          );
+          approachButtons.forEach((button) => approachObserver.observe(button));
+        }
+
         approachButtons.forEach((button) => {
           button.addEventListener("click", () => {
-            approachButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
-            button.setAttribute("aria-pressed", "true");
-            const content = approachContent[Number(button.dataset.approach)];
-            if (!content) return;
-            const index = String(Number(button.dataset.approach) + 1).padStart(2, "0");
-            approachPanel.innerHTML = `
-              <p class="approach-panel__index">${index} / Working principle</p>
-              <h3>${content.title}</h3>
-              <p>${content.copy}</p>
-            `;
+            setActiveApproach(Number(button.dataset.approach));
           });
         });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!desktopApproach.matches || reducedMotionQuery.matches || approachFrame) return;
+            approachFrame = window.requestAnimationFrame(updateApproachFromScroll);
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", configureApproachScroll, { passive: true });
+        desktopApproach.addEventListener("change", configureApproachScroll);
+        reducedMotionQuery.addEventListener("change", configureApproachScroll);
+        setActiveApproach(0);
+        configureApproachScroll();
 
         if (!reducedMotion) {
           window.setTimeout(() => {
