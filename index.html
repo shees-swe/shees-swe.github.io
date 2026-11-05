@@ -261,7 +261,7 @@
       main {
         position: relative;
         width: 100%;
-        overflow: hidden;
+        overflow: clip;
       }
 
       .skip-link {
@@ -1201,6 +1201,33 @@
         margin-top: var(--space-8);
       }
 
+      .approach-track {
+        position: relative;
+      }
+
+      @media (min-width: 1024px) and (prefers-reduced-motion: no-preference) {
+        .approach-track {
+          height: 600vh;
+          height: 600svh;
+        }
+
+        .approach-section {
+          position: sticky;
+          top: 0;
+          display: flex;
+          height: 100vh;
+          height: 100svh;
+          flex-direction: column;
+          justify-content: center;
+          padding-top: clamp(2rem, 7vh, 5rem);
+          padding-bottom: clamp(2rem, 7vh, 5rem);
+        }
+
+        .approach-section > .approach-grid {
+          min-height: 0;
+        }
+      }
+
       .approach-list button {
         display: flex;
         width: 100%;
@@ -1287,6 +1314,29 @@
         color: var(--muted);
         font-size: 1.0625rem;
         line-height: 1.7;
+      }
+
+      .approach-word {
+        display: inline-block;
+        animation: approach-word-in 520ms cubic-bezier(0.165, 0.84, 0.44, 1) both;
+        animation-delay: calc(var(--word-index) * 22ms);
+      }
+
+      @keyframes approach-word-in {
+        from {
+          opacity: 0;
+          transform: translateY(0.75rem);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .approach-word {
+          animation: none;
+        }
       }
 
       .contact {
@@ -2195,63 +2245,65 @@
         </dl>
       </section>
 
-      <section class="section" id="approach" aria-labelledby="approach-title">
-        <div data-reveal>
-          <p class="eyebrow">How I work</p>
-          <h2 class="section-heading" id="approach-title">
-            <span class="line-mask"><span class="line-inner">Built with care.</span></span>
-          </h2>
-        </div>
+      <div class="approach-track">
+        <section class="section approach-section" id="approach" aria-labelledby="approach-title">
+          <div data-reveal>
+            <p class="eyebrow">How I work</p>
+            <h2 class="section-heading" id="approach-title">
+              <span class="line-mask"><span class="line-inner">Built with care.</span></span>
+            </h2>
+          </div>
 
-        <div class="approach-grid">
-          <ul class="approach-list" aria-label="Work principles">
-            <li>
-              <button type="button" aria-pressed="true" data-approach="0">
-                <span class="approach-number">01</span>
-                <span class="approach-name">End-to-end ownership</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="1">
-                <span class="approach-number">02</span>
-                <span class="approach-name">Security in the build</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="2">
-                <span class="approach-number">03</span>
-                <span class="approach-name">AI with accountability</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="3">
-                <span class="approach-number">04</span>
-                <span class="approach-name">Tested before it ships</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-            <li>
-              <button type="button" aria-pressed="false" data-approach="4">
-                <span class="approach-number">05</span>
-                <span class="approach-name">Craft in the details</span>
-                <span class="approach-rule" aria-hidden="true"></span>
-              </button>
-            </li>
-          </ul>
+          <div class="approach-grid">
+            <ul class="approach-list" aria-label="Work principles">
+              <li>
+                <button type="button" aria-pressed="true" data-approach="0">
+                  <span class="approach-number">01</span>
+                  <span class="approach-name">End-to-end ownership</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="1">
+                  <span class="approach-number">02</span>
+                  <span class="approach-name">Security in the build</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="2">
+                  <span class="approach-number">03</span>
+                  <span class="approach-name">AI with accountability</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="3">
+                  <span class="approach-number">04</span>
+                  <span class="approach-name">Tested before it ships</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+              <li>
+                <button type="button" aria-pressed="false" data-approach="4">
+                  <span class="approach-number">05</span>
+                  <span class="approach-name">Craft in the details</span>
+                  <span class="approach-rule" aria-hidden="true"></span>
+                </button>
+              </li>
+            </ul>
 
-          <article class="approach-panel" id="approach-panel" aria-live="polite">
-            <p class="approach-panel__index">01 / Working principle</p>
-            <h3>End-to-end ownership</h3>
-            <p>
-              I take products from interface and APIs through databases, deployment, testing and
-              security fixes — working across the stack instead of stopping at a single layer.
-            </p>
-          </article>
-        </div>
-      </section>
+            <article class="approach-panel" id="approach-panel" aria-live="polite">
+              <p class="approach-panel__index">01 / Working principle</p>
+              <h3>End-to-end ownership</h3>
+              <p>
+                I take products from interface and APIs through databases, deployment, testing and
+                security fixes — working across the stack instead of stopping at a single layer.
+              </p>
+            </article>
+          </div>
+        </section>
+      </div>
 
       <footer class="contact" id="contact" aria-labelledby="contact-title">
         <div data-reveal>
@@ -2848,20 +2900,99 @@
         ];
         const approachButtons = document.querySelectorAll("[data-approach]");
         const approachPanel = document.getElementById("approach-panel");
+        const approachTrack = document.querySelector(".approach-track");
+        const approachSection = document.getElementById("approach");
+        const desktopApproach = window.matchMedia("(min-width: 1024px)");
+        let activeApproachIndex = -1;
+        let approachObserver = null;
+        let approachFrame = 0;
+
+        function appendWordReveal(element, text) {
+          text.split(/\s+/).forEach((word, index) => {
+            if (index > 0) element.append(document.createTextNode(" "));
+            const span = document.createElement("span");
+            span.className = "approach-word";
+            span.style.setProperty("--word-index", String(index));
+            span.textContent = word;
+            element.append(span);
+          });
+        }
+
+        function setActiveApproach(index) {
+          const content = approachContent[index];
+          if (!content || activeApproachIndex === index) return;
+          activeApproachIndex = index;
+          approachButtons.forEach((button) => {
+            button.setAttribute(
+              "aria-pressed",
+              Number(button.dataset.approach) === index ? "true" : "false",
+            );
+          });
+
+          const panelIndex = document.createElement("p");
+          panelIndex.className = "approach-panel__index";
+          panelIndex.textContent = `${String(index + 1).padStart(2, "0")} / Working principle`;
+          const title = document.createElement("h3");
+          appendWordReveal(title, content.title);
+          const copy = document.createElement("p");
+          appendWordReveal(copy, content.copy);
+          approachPanel.replaceChildren(panelIndex, title, copy);
+        }
+
+        function updateApproachFromScroll() {
+          approachFrame = 0;
+          if (!desktopApproach.matches || reducedMotionQuery.matches) return;
+          const start = approachTrack.getBoundingClientRect().top + window.scrollY;
+          const travel = Math.max(1, approachTrack.offsetHeight - approachSection.offsetHeight);
+          const progress = Math.min(1, Math.max(0, (window.scrollY - start) / travel));
+          const index = Math.min(
+            approachButtons.length - 1,
+            Math.floor(progress * approachButtons.length),
+          );
+          setActiveApproach(index);
+        }
+
+        function configureApproachScroll() {
+          if (approachObserver) {
+            approachObserver.disconnect();
+            approachObserver = null;
+          }
+          if (reducedMotionQuery.matches) return;
+          if (desktopApproach.matches) {
+            updateApproachFromScroll();
+            return;
+          }
+
+          approachObserver = new IntersectionObserver(
+            (entries) => {
+              entries.forEach((entry) => {
+                if (!entry.isIntersecting) return;
+                setActiveApproach(Number(entry.target.dataset.approach));
+              });
+            },
+            { rootMargin: "-42% 0px -42% 0px", threshold: 0 },
+          );
+          approachButtons.forEach((button) => approachObserver.observe(button));
+        }
+
         approachButtons.forEach((button) => {
           button.addEventListener("click", () => {
-            approachButtons.forEach((item) => item.setAttribute("aria-pressed", "false"));
-            button.setAttribute("aria-pressed", "true");
-            const content = approachContent[Number(button.dataset.approach)];
-            if (!content) return;
-            const index = String(Number(button.dataset.approach) + 1).padStart(2, "0");
-            approachPanel.innerHTML = `
-              <p class="approach-panel__index">${index} / Working principle</p>
-              <h3>${content.title}</h3>
-              <p>${content.copy}</p>
-            `;
+            setActiveApproach(Number(button.dataset.approach));
           });
         });
+        window.addEventListener(
+          "scroll",
+          () => {
+            if (!desktopApproach.matches || reducedMotionQuery.matches || approachFrame) return;
+            approachFrame = window.requestAnimationFrame(updateApproachFromScroll);
+          },
+          { passive: true },
+        );
+        window.addEventListener("resize", configureApproachScroll, { passive: true });
+        desktopApproach.addEventListener("change", configureApproachScroll);
+        reducedMotionQuery.addEventListener("change", configureApproachScroll);
+        setActiveApproach(0);
+        configureApproachScroll();
 
         if (!reducedMotion) {
           window.setTimeout(() => {
