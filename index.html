@@ -907,7 +907,7 @@
       .project-art {
         position: relative;
         display: flex;
-        aspect-ratio: 16 / 11;
+        aspect-ratio: 16 / 9;
         overflow: hidden;
         align-items: flex-end;
         justify-content: space-between;
@@ -922,14 +922,16 @@
         inset: 0;
         width: 100%;
         height: 100%;
-        object-fit: cover;
-        object-position: top center;
+        object-fit: contain;
+        object-position: center;
       }
       .project-art__caption {
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
       }
-      .project-art__img--fit {
-        object-fit: contain;
+      .project-art__img--edu {
+        background: #0c0c0a;
+      }
+      .project-art__img--event {
         background: #fffcf2;
       }
 
@@ -1910,7 +1912,7 @@
                 rel="noreferrer noopener"
                 aria-label="Open EduPredict live site"
               >
-                <img class="project-art__img" src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg" alt="EduPredict landing page" loading="lazy" />
+                <img class="project-art__img project-art__img--edu" src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg" alt="EduPredict landing page" loading="lazy" />
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Student analytics platform</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
@@ -1952,7 +1954,7 @@
                 rel="noreferrer noopener"
                 aria-label="Open EventSphere live site"
               >
-                <img class="project-art__img project-art__img--fit" src="/assets/eventsphere-landing.webp" alt="EventSphere landing page" loading="lazy" />
+                <img class="project-art__img project-art__img--event" src="/assets/eventsphere-landing.webp" alt="EventSphere landing page" loading="lazy" />
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Expo &amp; trade-show management</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
