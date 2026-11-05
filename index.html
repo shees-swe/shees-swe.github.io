@@ -916,23 +916,95 @@
         background: var(--surface);
         transition: transform 500ms cubic-bezier(0.16, 1, 0.3, 1);
       }
+      .project-art__media {
+        position: absolute;
+        z-index: 0;
+        inset: 0;
+        overflow: hidden;
+        background: var(--surface);
+        pointer-events: none;
+      }
+      .project-art__media--edu {
+        background: #0c0c0a;
+      }
+      .project-art__media--event {
+        background: #fffcf2;
+      }
       .project-art__img {
         position: absolute;
-        z-index: -1;
+        z-index: 0;
         inset: 0;
         width: 100%;
         height: 100%;
         object-fit: contain;
         object-position: center;
       }
+      .project-art__img--liquid {
+        z-index: 1;
+        opacity: 0;
+        transition: opacity 180ms ease;
+      }
+      .project-art[data-liquid-filter="edupredict-project-liquid"] .project-art__img--liquid {
+        filter: url(#edupredict-project-liquid);
+      }
+      .project-art[data-liquid-filter="eventsphere-project-liquid"] .project-art__img--liquid {
+        filter: url(#eventsphere-project-liquid);
+      }
+      .project-art.is-liquid-active .project-art__img--liquid {
+        opacity: 1;
+      }
+      .project-art__veil,
+      .project-art__glow,
+      .project-art__vignette {
+        position: absolute;
+        z-index: 2;
+        inset: 0;
+        pointer-events: none;
+      }
+      .project-art__veil {
+        background: #08080a;
+        mix-blend-mode: color;
+        opacity: 0.88;
+        transition: opacity 380ms ease-out;
+      }
+      .project-art.is-hovered .project-art__veil {
+        opacity: 0;
+      }
+      .project-art__glow {
+        z-index: 3;
+        background: linear-gradient(
+          120deg,
+          transparent 30%,
+          color-mix(in srgb, var(--accent) 35%, transparent) 50%,
+          transparent 70%
+        );
+        background-position: 0 0;
+        background-size: 200% 100%;
+        opacity: 0;
+        transition:
+          background-position 650ms cubic-bezier(0.16, 1, 0.3, 1),
+          opacity 380ms ease-out;
+      }
+      .project-art.is-hovered .project-art__glow {
+        background-position: 100% 0;
+        opacity: 1;
+      }
+      .project-art__vignette {
+        z-index: 4;
+        background: radial-gradient(
+          120% 120% at 50% 120%,
+          color-mix(in srgb, #08080a 70%, transparent),
+          transparent 60%
+        );
+      }
+      .project-art__filters {
+        position: absolute;
+        width: 0;
+        height: 0;
+        overflow: hidden;
+      }
       .project-art__caption {
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
-      }
-      .project-art__img--edu {
-        background: #0c0c0a;
-      }
-      .project-art__img--event {
-        background: #fffcf2;
       }
 
       .project-card:hover .project-art {
@@ -961,7 +1033,7 @@
 
       .project-art__grid {
         position: absolute;
-        z-index: -1;
+        z-index: 5;
         inset: 0;
         opacity: 0.5;
         background-image: linear-gradient(rgba(243, 241, 234, 0.08) 1px, transparent 1px),
@@ -980,6 +1052,7 @@
       }
 
       .project-art__mark {
+        z-index: 6;
         display: grid;
         width: 3.25rem;
         height: 3.25rem;
@@ -993,6 +1066,7 @@
 
       .project-art__caption {
         position: absolute;
+        z-index: 6;
         top: 1.25rem;
         left: 1.25rem;
         color: rgba(243, 241, 234, 0.6);
@@ -1907,12 +1981,48 @@
             <article>
               <a
                 class="project-art project-art--edu"
+                data-liquid-filter="edupredict-project-liquid"
                 href="https://edupredict-blue.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EduPredict live site"
               >
-                <img class="project-art__img project-art__img--edu" src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg" alt="EduPredict landing page" loading="lazy" />
+                <div class="project-art__media project-art__media--edu">
+                  <svg class="project-art__filters" aria-hidden="true">
+                    <filter id="edupredict-project-liquid" color-interpolation-filters="sRGB">
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.009"
+                        numOctaves="2"
+                        seed="3"
+                        result="noise"
+                      />
+                      <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="noise"
+                        scale="1"
+                        xChannelSelector="R"
+                        yChannelSelector="G"
+                      />
+                    </filter>
+                  </svg>
+                  <img
+                    class="project-art__img"
+                    src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg"
+                    alt="EduPredict landing page"
+                    loading="lazy"
+                  />
+                  <img
+                    class="project-art__img project-art__img--liquid"
+                    src="https://raw.githubusercontent.com/shees-swe/shees-swe/main/edupredict-landing.svg"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span class="project-art__veil"></span>
+                  <span class="project-art__glow"></span>
+                  <span class="project-art__vignette"></span>
+                </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Student analytics platform</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
@@ -1949,12 +2059,48 @@
             <article>
               <a
                 class="project-art project-art--event"
+                data-liquid-filter="eventsphere-project-liquid"
                 href="https://eventsphere-frontend-eight.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EventSphere live site"
               >
-                <img class="project-art__img project-art__img--event" src="/assets/eventsphere-landing.webp" alt="EventSphere landing page" loading="lazy" />
+                <div class="project-art__media project-art__media--event">
+                  <svg class="project-art__filters" aria-hidden="true">
+                    <filter id="eventsphere-project-liquid" color-interpolation-filters="sRGB">
+                      <feTurbulence
+                        type="fractalNoise"
+                        baseFrequency="0.009"
+                        numOctaves="2"
+                        seed="3"
+                        result="noise"
+                      />
+                      <feDisplacementMap
+                        in="SourceGraphic"
+                        in2="noise"
+                        scale="1"
+                        xChannelSelector="R"
+                        yChannelSelector="G"
+                      />
+                    </filter>
+                  </svg>
+                  <img
+                    class="project-art__img"
+                    src="/assets/eventsphere-landing.webp"
+                    alt="EventSphere landing page"
+                    loading="lazy"
+                  />
+                  <img
+                    class="project-art__img project-art__img--liquid"
+                    src="/assets/eventsphere-landing.webp"
+                    alt=""
+                    aria-hidden="true"
+                    loading="lazy"
+                  />
+                  <span class="project-art__veil"></span>
+                  <span class="project-art__glow"></span>
+                  <span class="project-art__vignette"></span>
+                </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Expo &amp; trade-show management</span>
                 <span class="project-art__mark" aria-hidden="true">↗</span>
@@ -2453,6 +2599,91 @@
         function canAnimateLiquidFilter() {
           return desktopHover.matches && !reducedMotionQuery.matches;
         }
+
+        document.querySelectorAll(".project-art[data-liquid-filter]").forEach((card) => {
+          const filter = document.getElementById(card.dataset.liquidFilter);
+          const turbulence = filter.querySelector("feTurbulence");
+          const displacement = filter.querySelector("feDisplacementMap");
+          const spring = { tension: 140, friction: 13 };
+          let scale = 1;
+          let frequency = 0.009;
+          let targetScale = scale;
+          let targetFrequency = frequency;
+          let scaleVelocity = 0;
+          let frequencyVelocity = 0;
+          let frameId = 0;
+          let previousTime = 0;
+
+          function animate(time) {
+            const delta = Math.min((time - previousTime) / 1000, 0.05);
+            previousTime = time;
+            const scaleAcceleration =
+              (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
+            const frequencyAcceleration =
+              (targetFrequency - frequency) * spring.tension -
+              frequencyVelocity * spring.friction;
+
+            scaleVelocity += scaleAcceleration * delta;
+            frequencyVelocity += frequencyAcceleration * delta;
+            scale += scaleVelocity * delta;
+            frequency += frequencyVelocity * delta;
+            displacement.setAttribute("scale", scale.toFixed(3));
+            turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
+
+            const scaleSettled =
+              Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
+            const frequencySettled =
+              Math.abs(targetFrequency - frequency) < 0.00001 &&
+              Math.abs(frequencyVelocity) < 0.00001;
+            if (scaleSettled && frequencySettled) {
+              scale = targetScale;
+              frequency = targetFrequency;
+              scaleVelocity = 0;
+              frequencyVelocity = 0;
+              displacement.setAttribute("scale", String(scale));
+              turbulence.setAttribute("baseFrequency", String(frequency));
+              frameId = 0;
+              return;
+            }
+
+            frameId = window.requestAnimationFrame(animate);
+          }
+
+          function startAnimation() {
+            if (frameId) return;
+            previousTime = performance.now();
+            frameId = window.requestAnimationFrame(animate);
+          }
+
+          function activate() {
+            if (!canAnimateLiquidFilter()) return;
+            card.classList.add("is-hovered", "is-liquid-active");
+            targetScale = 28;
+            targetFrequency = 0.022;
+            startAnimation();
+          }
+
+          function deactivate() {
+            card.classList.remove("is-hovered", "is-liquid-active");
+            targetScale = 1;
+            targetFrequency = 0.009;
+            startAnimation();
+          }
+
+          card.addEventListener("pointerenter", (event) => {
+            if (event.pointerType === "touch") return;
+            activate();
+          });
+          card.addEventListener("pointerleave", deactivate);
+          card.addEventListener("focus", activate);
+          card.addEventListener("blur", deactivate);
+          desktopHover.addEventListener("change", (event) => {
+            if (!event.matches) deactivate();
+          });
+          reducedMotionQuery.addEventListener("change", (event) => {
+            if (event.matches) deactivate();
+          });
+        });
 
         hero.addEventListener("pointerenter", (event) => {
           if (!canAnimateLiquidFilter()) return;
