@@ -562,185 +562,45 @@
         transition-delay: 360ms;
       }
 
-      .hero {
-        position: relative;
-        display: flex;
-        height: 100vh;
-        height: 100svh;
-        flex-direction: column;
-        overflow: hidden;
-        isolation: isolate;
-        background-color: #000;
-      }
+      
 
-      .hero__filters {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
+      
 
-      .hero__artwork {
-        position: absolute;
-        z-index: 0;
-        inset: 0;
-        overflow: hidden;
-        pointer-events: none;
-      }
+      
 
-      .hero__artwork img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: top center;
-      }
+      
 
-      .hero__artwork--liquid {
-        z-index: 1;
-        opacity: 0;
-        visibility: hidden;
-        -webkit-mask-image: radial-gradient(
-          circle 150px at var(--mx, 50%) var(--my, 50%),
-          black 0%,
-          black 50%,
-          transparent 100%
-        );
-        mask-image: radial-gradient(
-          circle 150px at var(--mx, 50%) var(--my, 50%),
-          black 0%,
-          black 50%,
-          transparent 100%
-        );
-        mask-repeat: no-repeat;
-        transition: opacity 180ms ease, visibility 180ms ease;
-      }
+      
 
-      .hero--liquid-active .hero__artwork--liquid {
-        opacity: 1;
-        visibility: visible;
-      }
+      
 
-      .hero__artwork--liquid img {
-        filter: url("#hero-liquid");
-      }
+      
 
-      .hero__top {
-        position: relative;
-        z-index: 30;
-        display: flex;
-        align-items: flex-start;
-        justify-content: flex-start;
-        gap: 2rem;
-        padding: 7rem var(--gutter) 0;
-      }
+      
 
-      .hero__roles {
-        display: flex;
-        flex: 0 0 auto;
-        flex-direction: column;
-        font-family: var(--font-display);
-        font-size: 1.75rem;
-        font-weight: 400;
-        line-height: 1.05;
-        letter-spacing: -0.01em;
-        text-transform: uppercase;
-      }
+      
 
-      .hero__role {
-        display: block;
-        overflow: hidden;
-      }
+      
 
-      .hero__role span {
-        display: inline-block;
-      }
+      
 
-      .hero__description {
-        position: absolute;
-        z-index: 30;
-        right: var(--gutter);
-        bottom: 1.5rem;
-        width: clamp(14rem, 25vw, 26rem);
-        color: var(--muted);
-        font-size: 1.0625rem;
-        line-height: 1.65;
-        text-align: right;
-      }
+      
 
-      .hero__name {
-        position: absolute;
-        z-index: 10;
-        right: clamp(14rem, 30vw, 30rem);
-        bottom: 3.5rem;
-        left: var(--gutter);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        transform: translateZ(0);
-        will-change: transform;
-        color: #e00018;
-        font-family: var(--font-display);
-        font-size: clamp(6rem, 13vw, 13rem);
-        font-weight: 400;
-        line-height: 0.9;
-        letter-spacing: -0.02em;
-        text-align: center;
-        text-transform: uppercase;
-      }
+      
 
-      .hero__name-line {
-        display: block;
-        white-space: nowrap;
-      }
+      
 
-      .hero__name-line + .hero__name-line {
-        color: #b00016;
-      }
+      
 
-      .hero__name-line .char {
-        display: inline-block;
-        transform: translateY(115%);
-        transition: transform 900ms cubic-bezier(0.16, 1, 0.3, 1);
-        transition-delay: var(--delay, 0ms);
-      }
+      
 
-      body.hero-revealed .hero__name-line .char,
-      body.motion-complete .hero__name-line .char {
-        transform: translateY(0);
-      }
+      
 
-      .hero__gradient {
-        position: absolute;
-        z-index: 3;
-        right: 0;
-        bottom: 0;
-        left: 0;
-        height: 26vh;
-        background: linear-gradient(to bottom, transparent, var(--background));
-        pointer-events: none;
-      }
+      
 
-      .hero__scroll {
-        position: absolute;
-        z-index: 30;
-        bottom: 2rem;
-        left: var(--gutter);
-        display: flex;
-        align-items: center;
-        gap: 0.75rem;
-        color: var(--muted);
-        font-size: 0.8125rem;
-        letter-spacing: 0.22em;
-        text-transform: uppercase;
-      }
+      
 
-      .hero__scroll::before {
-        width: 1px;
-        height: 2.5rem;
-        background: var(--accent);
-        content: "";
-      }
+      
 
       .marquee {
         overflow: hidden;
@@ -939,23 +799,8 @@
       .project-art__media--event {
         background: #fffcf2;
       }
-      .project-art__media::after {
-        position: absolute;
-        z-index: 2;
-        inset: 0;
-        background: radial-gradient(
-          45% 65% at 68% 48%,
-          color-mix(in srgb, var(--accent) 25%, transparent),
-          transparent 68%
-        );
-        content: "";
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 380ms ease-out;
-      }
-      .project-art.is-hovered .project-art__media::after {
-        opacity: 1;
-      }
+      
+      
       .project-art__img {
         position: absolute;
         z-index: 0;
@@ -965,50 +810,14 @@
         object-fit: contain;
         object-position: center;
         filter: grayscale(1);
-        transition: filter 380ms ease-out;
       }
-      .project-art__img--liquid {
-        z-index: 1;
-        opacity: 0;
-        transition: opacity 380ms ease-out;
-      }
-      .project-art[data-liquid-filter="edupredict-project-liquid"] .project-art__img--liquid {
-        filter: url(#edupredict-project-liquid);
-      }
-      .project-art[data-liquid-filter="eventsphere-project-liquid"] .project-art__img--liquid {
-        filter: url(#eventsphere-project-liquid);
-      }
-      .project-art.is-liquid-active .project-art__img--liquid {
-        opacity: 1;
-      }
-      .project-art__glow {
-        position: absolute;
-        z-index: 3;
-        inset: 0;
-        pointer-events: none;
-        background: linear-gradient(
-          120deg,
-          transparent 30%,
-          color-mix(in srgb, var(--accent) 35%, transparent) 50%,
-          transparent 70%
-        );
-        background-position: -100% 0;
-        background-size: 200% 100%;
-        opacity: 0;
-        transition:
-          background-position 650ms cubic-bezier(0.16, 1, 0.3, 1),
-          opacity 220ms ease-out;
-      }
-      .project-art.is-hovered .project-art__glow {
-        background-position: 100% 0;
-        opacity: 1;
-      }
-      .project-art__filters {
-        position: absolute;
-        width: 0;
-        height: 0;
-        overflow: hidden;
-      }
+      
+      
+      
+      
+      
+      
+      
       .project-art__caption {
         text-shadow: 0 1px 10px rgba(0, 0, 0, 0.55);
       }
@@ -1476,39 +1285,15 @@
         opacity: 1;
       }
 
-      body.js-enabled .hero__role span {
-        display: inline-block;
-        transform: translateY(110%);
-        transition: transform 760ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
+      
 
-      body.hero-revealed .hero__role span,
-      body.motion-complete .hero__role span {
-        transform: translateY(0);
-      }
+      
 
-      body.js-enabled .hero__description,
-      body.js-enabled .hero__scroll {
-        transform: translateY(1rem);
-        transition: transform 520ms cubic-bezier(0.16, 1, 0.3, 1);
-      }
+      
 
-      body.hero-revealed .hero__description,
-      body.hero-revealed .hero__scroll,
-      body.motion-complete .hero__description,
-      body.motion-complete .hero__scroll {
-        transform: translateY(0);
-      }
+      
 
-      @media (min-width: 640px) {
-        .hero__top {
-          padding-top: 8rem;
-        }
-
-        .hero__roles {
-          font-size: 3.25rem;
-        }
-      }
+      
 
       @media (min-width: 768px) {
         .menu-toggle,
@@ -1526,9 +1311,7 @@
           gap: 1.25rem;
         }
 
-        .hero__roles {
-          font-size: 2rem;
-        }
+        
 
         .about-main,
         .about-details {
@@ -1574,11 +1357,7 @@
         }
       }
 
-      @media (min-width: 768px) and (max-width: 1024px) {
-        .hero__name {
-          right: clamp(14rem, 30vw, 30rem);
-        }
-      }
+      
 
       @media (max-width: 767px) {
         .site-nav {
@@ -1601,43 +1380,19 @@
           display: flex;
         }
 
-        .hero {
-          height: 100vh;
-          height: 100svh;
-        }
+        
 
-        .hero__top {
-          flex-direction: column;
-          gap: 1.5rem;
-          padding-top: 6.5rem;
-        }
+        
 
-        .hero__roles {
-          font-size: 1.75rem;
-        }
+        
 
-        .hero__description {
-          right: var(--gutter);
-          bottom: 4.25rem;
-          width: min(22rem, calc(100% - var(--gutter) - var(--gutter)));
-        }
+        
 
-        .hero__name {
-          right: 0;
-          bottom: 13rem;
-          left: 0;
-          font-size: clamp(2.25rem, 13vw, 3.75rem);
-          line-height: 0.9;
-          letter-spacing: -0.02em;
-        }
+        
 
-        .hero__gradient {
-          height: 28vh;
-        }
+        
 
-        .hero__scroll {
-          bottom: 0.75rem;
-        }
+        
 
         .section {
           padding-top: var(--section-compact);
@@ -1763,12 +1518,7 @@
       }
 
       @media (min-width: 641px) and (max-width: 1023px) {
-        .body-copy,
-        .hero__description,
-        .project-row p,
-        .impact-label,
-        .approach-panel p,
-        .contact__lede {
+        .body-copy, .project-row p, .impact-label, .approach-panel p, .contact__lede{
           font-size: max(14px, 1.0625rem);
         }
       }
@@ -1782,9 +1532,7 @@
       }
 
       @media (max-width: 380px) {
-        .hero__name {
-          bottom: 16rem;
-        }
+        
 
         .project-row {
           flex-direction: column;
@@ -1795,11 +1543,7 @@
         }
       }
 
-      @media (min-width: 768px) and (max-width: 1023px) and (orientation: portrait) {
-        .hero__name {
-          bottom: 3rem;
-        }
-      }
+      
 
       @media (prefers-reduced-motion: reduce) {
         *,
@@ -1816,12 +1560,7 @@
           transform: none !important;
         }
 
-        body .hero__role span,
-        body .hero__description,
-        body .hero__scroll,
-        body .hero__name-line .char {
-          transition-delay: 0ms !important;
-        }
+        
       }
           #about,
       #projects,
@@ -1855,7 +1594,7 @@
       <div class="crimson-scrollbar__thumb" id="crimson-scrollbar-thumb"></div>
     </div>
 
-    <header class="site-header">
+    <header class="site-header" id="top">
       <nav class="site-nav" aria-label="Main navigation">
         <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
           <img class="brand__logo" src="/assets/logo.png" alt="" />
@@ -1891,68 +1630,6 @@
     </nav>
 
     <main id="main">
-      <section class="hero" id="top" aria-labelledby="hero-title">
-        <svg class="hero__filters" aria-hidden="true">
-          <filter
-            id="hero-liquid"
-            x="-15%"
-            y="-15%"
-            width="130%"
-            height="130%"
-            color-interpolation-filters="sRGB"
-          >
-            <feTurbulence
-              id="hero-liquid-turbulence"
-              type="fractalNoise"
-              baseFrequency="0.009"
-              numOctaves="2"
-              seed="3"
-              result="hero-noise"
-            />
-            <feDisplacementMap
-              id="hero-liquid-displacement"
-              in="SourceGraphic"
-              in2="hero-noise"
-              scale="1"
-              xChannelSelector="R"
-              yChannelSelector="G"
-            />
-          </filter>
-        </svg>
-        <picture class="hero__artwork" aria-hidden="true">
-          <source
-            media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
-            srcset="/assets/hero-background-mobile.png"
-          />
-          <img src="/assets/hero-background.png" alt="" fetchpriority="high" />
-        </picture>
-        <picture class="hero__artwork hero__artwork--liquid" aria-hidden="true">
-          <source
-            media="(max-width: 767px), (min-width: 768px) and (max-width: 1023px) and (orientation: portrait)"
-            srcset="/assets/hero-background-mobile.png"
-          />
-          <img src="/assets/hero-background.png" alt="" />
-        </picture>
-        <div class="hero__top">
-          <h2 class="hero__roles" aria-label="Full-Stack Developer, Karachi, Pakistan">
-            <span class="hero__role"><span>Full-Stack</span></span>
-            <span class="hero__role"><span>Developer</span></span>
-            <span class="hero__role"><span>Karachi</span></span>
-            <span class="hero__role"><span>Pakistan</span></span>
-          </h2>
-        </div>
-
-        <h1 class="hero__name" id="hero-title" aria-label="Muhammad Shees">
-          <span class="hero__name-line" data-word="Muhammad">Muhammad</span>
-          <span class="hero__name-line" data-word="Shees">Shees</span>
-        </h1>
-        <p class="hero__description">
-          I build web applications end to end — from React interfaces and APIs to databases,
-          deployment and the details that make a product useful.
-        </p>
-        <div class="hero__gradient" aria-hidden="true"></div>
-        <a class="hero__scroll" href="#marquee">Scroll to explore</a>
-      </section>
 
       <section class="marquee" id="marquee" aria-label="Areas of focus">
         <div class="marquee__track">
@@ -2052,54 +1729,18 @@
             <article>
               <a
                 class="project-art project-art--edu"
-                data-liquid-filter="edupredict-project-liquid"
                 href="https://edupredict-blue.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EduPredict live site"
               >
                 <div class="project-art__media project-art__media--edu">
-                  <svg class="project-art__filters" aria-hidden="true">
-                    <defs>
-                      <filter
-                        id="edupredict-project-liquid"
-                        x="-50%"
-                        y="-50%"
-                        width="200%"
-                        height="200%"
-                        color-interpolation-filters="sRGB"
-                      >
-                        <feTurbulence
-                          type="fractalNoise"
-                          baseFrequency="0.009"
-                          numOctaves="2"
-                          seed="3"
-                          result="noise"
-                        />
-                        <feDisplacementMap
-                          in="SourceGraphic"
-                          in2="noise"
-                          scale="1"
-                          xChannelSelector="R"
-                          yChannelSelector="G"
-                        />
-                      </filter>
-                    </defs>
-                  </svg>
                   <img
                     class="project-art__img"
                     src="/assets/edupredict-landing.svg"
                     alt="EduPredict landing page"
                     loading="lazy"
                   />
-                  <img
-                    class="project-art__img project-art__img--liquid"
-                    src="/assets/edupredict-landing.svg"
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                  />
-                  <span class="project-art__glow"></span>
                 </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Student analytics platform</span>
@@ -2137,54 +1778,18 @@
             <article>
               <a
                 class="project-art project-art--event"
-                data-liquid-filter="eventsphere-project-liquid"
                 href="https://eventsphere-frontend-eight.vercel.app"
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label="Open EventSphere live site"
               >
                 <div class="project-art__media project-art__media--event">
-                  <svg class="project-art__filters" aria-hidden="true">
-                    <defs>
-                      <filter
-                        id="eventsphere-project-liquid"
-                        x="-50%"
-                        y="-50%"
-                        width="200%"
-                        height="200%"
-                        color-interpolation-filters="sRGB"
-                      >
-                        <feTurbulence
-                          type="fractalNoise"
-                          baseFrequency="0.009"
-                          numOctaves="2"
-                          seed="3"
-                          result="noise"
-                        />
-                        <feDisplacementMap
-                          in="SourceGraphic"
-                          in2="noise"
-                          scale="1"
-                          xChannelSelector="R"
-                          yChannelSelector="G"
-                        />
-                      </filter>
-                    </defs>
-                  </svg>
                   <img
                     class="project-art__img"
                     src="/assets/eventsphere-landing.webp"
                     alt="EventSphere landing page"
                     loading="lazy"
                   />
-                  <img
-                    class="project-art__img project-art__img--liquid"
-                    src="/assets/eventsphere-landing.webp"
-                    alt=""
-                    aria-hidden="true"
-                    loading="lazy"
-                  />
-                  <span class="project-art__glow"></span>
                 </div>
                 <span class="project-art__grid" aria-hidden="true"></span>
                 <span class="project-art__caption">Expo &amp; trade-show management</span>
@@ -2495,310 +2100,7 @@
         applyAdaptiveGrid();
         window.addEventListener("resize", applyAdaptiveGrid, { passive: true });
 
-        document.querySelectorAll(".hero__name-line").forEach((line, lineIndex) => {
-          const word = line.dataset.word;
-          line.replaceChildren();
-          Array.from(word).forEach((character, characterIndex) => {
-            const span = document.createElement("span");
-            span.className = "char";
-            span.textContent = character;
-            span.style.setProperty(
-              "--delay",
-              `${lineIndex * 240 + characterIndex * 52}ms`,
-            );
-            line.append(span);
-          });
-        });
-
-        document.querySelectorAll(".hero__role span").forEach((role, index) => {
-          role.style.transitionDelay = `${200 + index * 80}ms`;
-        });
-        document.querySelector(".hero__description").style.transitionDelay = "400ms";
-        document.querySelector(".hero__scroll").style.transitionDelay = "900ms";
-
-        const hero = document.querySelector(".hero");
-        const liquidArtwork = hero.querySelector(".hero__artwork--liquid");
-        const turbulence = document.getElementById("hero-liquid-turbulence");
-        const displacement = document.getElementById("hero-liquid-displacement");
-        const desktopHover = window.matchMedia(
-          "(min-width: 769px) and (hover: hover) and (pointer: fine)",
-        );
         const reducedMotionQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-        const spring = { tension: 140, friction: 13 };
-        let heroVisible = false;
-        let pointerActive = false;
-        let scale = 1;
-        let frequency = 0.009;
-        let scaleVelocity = 0;
-        let frequencyVelocity = 0;
-        let pointerVelocity = 0;
-        let lastPointerX = 0;
-        let lastPointerY = 0;
-        let lastPointerTime = 0;
-        let movementTimeout = 0;
-        let maskX = hero.clientWidth / 2;
-        let maskY = hero.clientHeight / 2;
-        let maskTargetX = maskX;
-        let maskTargetY = maskY;
-        let maskVelocityX = 0;
-        let maskVelocityY = 0;
-        let frameId = 0;
-        let previousTime = 0;
-
-        function setMaskPosition(x, y) {
-          if (!liquidArtwork) return;
-          liquidArtwork.style.setProperty("--mx", `${x.toFixed(1)}px`);
-          liquidArtwork.style.setProperty("--my", `${y.toFixed(1)}px`);
-        }
-
-        function resetLiquidFilter() {
-          scale = 1;
-          frequency = 0.009;
-          scaleVelocity = 0;
-          frequencyVelocity = 0;
-          displacement.setAttribute("scale", String(scale));
-          turbulence.setAttribute("baseFrequency", String(frequency));
-        }
-
-        function animateLiquidFilter(time) {
-          if (!heroVisible) {
-            frameId = 0;
-            return;
-          }
-
-          const delta = Math.min((time - previousTime) / 1000, 0.05);
-          previousTime = time;
-          const movementStrength = pointerActive
-            ? Math.min(pointerVelocity / 12, 1)
-            : 0;
-          const targetScale = 1 + movementStrength * 54;
-          const targetFrequency = 0.009 + movementStrength * 0.019;
-          const scaleAcceleration =
-            (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
-          const frequencyAcceleration =
-            (targetFrequency - frequency) * spring.tension -
-            frequencyVelocity * spring.friction;
-          const maskAccelerationX =
-            (maskTargetX - maskX) * spring.tension - maskVelocityX * spring.friction;
-          const maskAccelerationY =
-            (maskTargetY - maskY) * spring.tension - maskVelocityY * spring.friction;
-
-          scaleVelocity += scaleAcceleration * delta;
-          frequencyVelocity += frequencyAcceleration * delta;
-          maskVelocityX += maskAccelerationX * delta;
-          maskVelocityY += maskAccelerationY * delta;
-          scale += scaleVelocity * delta;
-          frequency += frequencyVelocity * delta;
-          maskX += maskVelocityX * delta;
-          maskY += maskVelocityY * delta;
-          displacement.setAttribute("scale", scale.toFixed(3));
-          turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
-          setMaskPosition(maskX, maskY);
-
-          const scaleSettled = Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
-          const frequencySettled =
-            Math.abs(targetFrequency - frequency) < 0.00001 &&
-            Math.abs(frequencyVelocity) < 0.00001;
-          const maskSettled =
-            Math.abs(maskTargetX - maskX) < 0.1 &&
-            Math.abs(maskTargetY - maskY) < 0.1 &&
-            Math.abs(maskVelocityX) < 0.1 &&
-            Math.abs(maskVelocityY) < 0.1;
-          if (scaleSettled && frequencySettled && maskSettled) {
-            scale = targetScale;
-            frequency = targetFrequency;
-            scaleVelocity = 0;
-            frequencyVelocity = 0;
-            maskX = maskTargetX;
-            maskY = maskTargetY;
-            maskVelocityX = 0;
-            maskVelocityY = 0;
-            displacement.setAttribute("scale", String(scale));
-            turbulence.setAttribute("baseFrequency", String(frequency));
-            setMaskPosition(maskX, maskY);
-            frameId = 0;
-            return;
-          }
-
-          frameId = window.requestAnimationFrame(animateLiquidFilter);
-        }
-
-        function startLiquidFilter() {
-          if (!heroVisible || frameId) return;
-          previousTime = performance.now();
-          frameId = window.requestAnimationFrame(animateLiquidFilter);
-        }
-
-        function updateMaskTarget(event) {
-          const bounds = hero.getBoundingClientRect();
-          const x = event.clientX - bounds.left;
-          const y = event.clientY - bounds.top;
-          const now = performance.now();
-          const elapsed = Math.max(now - lastPointerTime, 1);
-          const distance = Math.hypot(x - lastPointerX, y - lastPointerY);
-          pointerVelocity = (distance / elapsed) * 16;
-          lastPointerX = x;
-          lastPointerY = y;
-          lastPointerTime = now;
-          maskTargetX = x;
-          maskTargetY = y;
-          pointerActive = pointerVelocity > 0.05;
-          hero.classList.toggle("hero--liquid-active", pointerActive);
-          if (movementTimeout) window.clearTimeout(movementTimeout);
-          movementTimeout = window.setTimeout(() => {
-            pointerActive = false;
-            pointerVelocity = 0;
-            movementTimeout = 0;
-            hero.classList.remove("hero--liquid-active");
-            startLiquidFilter();
-          }, 120);
-          startLiquidFilter();
-        }
-
-        function stopPointerEffect() {
-          pointerActive = false;
-          pointerVelocity = 0;
-          if (movementTimeout) window.clearTimeout(movementTimeout);
-          movementTimeout = 0;
-          hero.classList.remove("hero--liquid-active");
-          startLiquidFilter();
-        }
-
-        function disableLiquidFilter() {
-          pointerActive = false;
-          pointerVelocity = 0;
-          lastPointerTime = 0;
-          if (movementTimeout) window.clearTimeout(movementTimeout);
-          movementTimeout = 0;
-          hero.classList.remove("hero--liquid-active");
-          if (frameId) window.cancelAnimationFrame(frameId);
-          frameId = 0;
-          resetLiquidFilter();
-          maskX = hero.clientWidth / 2;
-          maskY = hero.clientHeight / 2;
-          maskTargetX = maskX;
-          maskTargetY = maskY;
-          maskVelocityX = 0;
-          maskVelocityY = 0;
-          setMaskPosition(maskX, maskY);
-        }
-
-        function canAnimateLiquidFilter() {
-          return desktopHover.matches && !reducedMotionQuery.matches;
-        }
-
-        document.querySelectorAll(".project-art[data-liquid-filter]").forEach((card) => {
-          const filter = document.getElementById(card.dataset.liquidFilter);
-          const turbulence = filter.querySelector("feTurbulence");
-          const displacement = filter.querySelector("feDisplacementMap");
-          const spring = { tension: 140, friction: 13 };
-          let scale = 1;
-          let frequency = 0.009;
-          let targetScale = scale;
-          let targetFrequency = frequency;
-          let scaleVelocity = 0;
-          let frequencyVelocity = 0;
-          let frameId = 0;
-          let previousTime = 0;
-
-          function animate(time) {
-            const delta = Math.min((time - previousTime) / 1000, 0.05);
-            previousTime = time;
-            const scaleAcceleration =
-              (targetScale - scale) * spring.tension - scaleVelocity * spring.friction;
-            const frequencyAcceleration =
-              (targetFrequency - frequency) * spring.tension -
-              frequencyVelocity * spring.friction;
-
-            scaleVelocity += scaleAcceleration * delta;
-            frequencyVelocity += frequencyAcceleration * delta;
-            scale += scaleVelocity * delta;
-            frequency += frequencyVelocity * delta;
-            displacement.setAttribute("scale", scale.toFixed(3));
-            turbulence.setAttribute("baseFrequency", frequency.toFixed(5));
-
-            const scaleSettled =
-              Math.abs(targetScale - scale) < 0.01 && Math.abs(scaleVelocity) < 0.01;
-            const frequencySettled =
-              Math.abs(targetFrequency - frequency) < 0.00001 &&
-              Math.abs(frequencyVelocity) < 0.00001;
-            if (scaleSettled && frequencySettled) {
-              scale = targetScale;
-              frequency = targetFrequency;
-              scaleVelocity = 0;
-              frequencyVelocity = 0;
-              displacement.setAttribute("scale", String(scale));
-              turbulence.setAttribute("baseFrequency", String(frequency));
-              frameId = 0;
-              return;
-            }
-
-            frameId = window.requestAnimationFrame(animate);
-          }
-
-          function startAnimation() {
-            if (frameId) return;
-            previousTime = performance.now();
-            frameId = window.requestAnimationFrame(animate);
-          }
-
-          function activate() {
-            if (!canAnimateLiquidFilter()) return;
-            card.classList.add("is-hovered", "is-liquid-active");
-            targetScale = 28;
-            targetFrequency = 0.022;
-            startAnimation();
-          }
-
-          function deactivate() {
-            card.classList.remove("is-hovered", "is-liquid-active");
-            targetScale = 1;
-            targetFrequency = 0.009;
-            startAnimation();
-          }
-
-          card.addEventListener("pointerenter", (event) => {
-            if (event.pointerType === "touch") return;
-            activate();
-          });
-          card.addEventListener("pointerleave", deactivate);
-          card.addEventListener("focus", activate);
-          card.addEventListener("blur", deactivate);
-          desktopHover.addEventListener("change", (event) => {
-            if (!event.matches) deactivate();
-          });
-          reducedMotionQuery.addEventListener("change", (event) => {
-            if (event.matches) deactivate();
-          });
-        });
-
-        hero.addEventListener("pointerenter", (event) => {
-          if (!canAnimateLiquidFilter()) return;
-          lastPointerX = event.clientX - hero.getBoundingClientRect().left;
-          lastPointerY = event.clientY - hero.getBoundingClientRect().top;
-          lastPointerTime = performance.now();
-          updateMaskTarget(event);
-        });
-        hero.addEventListener("pointermove", (event) => {
-          if (canAnimateLiquidFilter()) updateMaskTarget(event);
-        });
-        hero.addEventListener("pointerleave", () => {
-          if (!canAnimateLiquidFilter()) {
-            disableLiquidFilter();
-            return;
-          }
-          stopPointerEffect();
-        });
-        desktopHover.addEventListener("change", (event) => {
-          if (!event.matches) disableLiquidFilter();
-        });
-        reducedMotionQuery.addEventListener("change", (event) => {
-          if (event.matches) disableLiquidFilter();
-        });
-        new IntersectionObserver(([entry]) => {
-          heroVisible = entry.isIntersecting;
-          if (!heroVisible) disableLiquidFilter();
-        }).observe(hero);
 
         if (reducedMotion) {
           body.classList.add("motion-complete");
@@ -2836,12 +2138,6 @@
           }
           requestAnimationFrame(count);
 
-          window.setTimeout(() => body.classList.add("hero-revealed"), 2500);
-          window.setTimeout(() => body.classList.add("hero-revealed"), 2900);
-          window.setTimeout(
-            () => document.querySelector(".hero__scroll").classList.add("is-visible"),
-            3400,
-          );
         }
 
         const revealObserver = new IntersectionObserver(
@@ -3012,12 +2308,6 @@
         setActiveApproach(0);
         configureApproachScroll();
 
-        if (!reducedMotion) {
-          window.setTimeout(() => {
-            if (loading) return;
-            body.classList.add("hero-revealed");
-          }, 2900);
-        }
       })();
     </script>
   </body>
