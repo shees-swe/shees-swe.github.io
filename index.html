@@ -487,6 +487,34 @@
 
       
 
+      .hero {
+        position: relative;
+        height: 100vh;
+        height: 100svh;
+        overflow: hidden;
+        background: #000;
+      }
+
+      .hero__scene {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+
+      /* Covers the "Built with Spline" badge at the hero's bottom-right corner.
+         The scene background is black, so the cover is invisible. */
+      .spline-badge-cover {
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        width: 200px;
+        height: 56px;
+        background: #000;
+        z-index: 6;
+        pointer-events: none;
+      }
+
       .marquee {
         overflow: hidden;
         border-top: 1px solid var(--line);
@@ -1463,6 +1491,15 @@
     </div>
 
     <main id="main">
+      <section class="hero" id="top" aria-label="Muhammad Shees - Full-Stack Developer">
+        <iframe
+          class="hero__scene"
+          src="https://my.spline.design/boxeshover-FhcDCgRwdDteUvp6rVWTDG44/"
+          title="Muhammad Shees - interactive 3D hero"
+          loading="eager"
+        ></iframe>
+        <div class="spline-badge-cover" aria-hidden="true"></div>
+      </section>
 
       <section class="marquee" id="marquee" aria-label="Areas of focus">
         <div class="marquee__track">
