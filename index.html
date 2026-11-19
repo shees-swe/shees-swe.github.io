@@ -391,176 +391,61 @@
         overflow: hidden;
       }
 
-      body.menu-open {
-        overflow: hidden;
-      }
+      
 
       body.is-loading .preloader {
         display: flex;
       }
 
-      .site-header {
-        position: fixed;
-        inset: 0 0 auto;
-        z-index: 60;
-        pointer-events: none;
-      }
+      
 
-      .site-nav {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 1.5rem var(--gutter);
-        pointer-events: auto;
-      }
+      
 
-      .brand {
-        display: inline-flex;
-        align-items: center;
-      }
+      
 
-      .brand__logo {
-        display: block;
-        height: 3rem;
-        width: auto;
-      }
+      
 
-      .desktop-links {
-        display: flex;
-        align-items: center;
-        gap: 2.5rem;
-      }
+      
 
-      .nav-link {
-        position: relative;
-        padding: 0.5rem 0;
-        color: var(--muted);
-        font-size: 0.8125rem;
-        font-weight: 500;
-        letter-spacing: 0.18em;
-        text-transform: uppercase;
-        transition: color 220ms ease;
-      }
+      
 
-      .nav-link::after {
-        position: absolute;
-        right: 0;
-        bottom: 0.15rem;
-        left: 0;
-        height: 1px;
-        transform: scaleX(0);
-        transform-origin: left;
-        background: var(--accent);
-        content: "";
-        transition: transform 260ms ease;
-      }
+      
 
-      .nav-link:hover,
-      .nav-link:focus-visible {
-        color: var(--foreground);
-      }
+      
 
-      .nav-link:hover::after,
-      .nav-link:focus-visible::after {
-        transform: scaleX(1);
-      }
+      
 
-      .menu-toggle {
-        position: relative;
-        z-index: 62;
-        display: none;
-        width: 2.5rem;
-        height: 2.5rem;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        gap: 0.375rem;
-      }
+      
 
-      .menu-toggle span {
-        width: 1.5rem;
-        height: 2px;
-        background: var(--foreground);
-        transition: transform 300ms ease, opacity 200ms ease;
-      }
+      
 
-      .menu-toggle.is-open span:first-child {
-        transform: translateY(0.25rem) rotate(45deg);
-      }
+      
 
-      .menu-toggle.is-open span:nth-child(2) {
-        opacity: 0;
-      }
+      
 
-      .menu-toggle.is-open span:last-child {
-        transform: translateY(-0.25rem) rotate(-45deg);
-      }
+      
 
-      .mobile-menu {
-        position: fixed;
-        inset: 0;
-        z-index: 61;
-        display: flex;
-        visibility: hidden;
-        align-items: center;
-        justify-content: center;
-        background: var(--background);
-        opacity: 0;
-        transition: opacity 450ms ease-out, visibility 450ms;
-      }
+      
 
-      .mobile-menu.is-open {
-        visibility: visible;
-        opacity: 1;
-      }
+      
 
-      .mobile-menu ul {
-        display: flex;
-        flex-direction: column;
-        gap: 1.25rem;
-        width: min(100% - 2 * var(--gutter), 30rem);
-      }
+      
 
-      .mobile-menu a {
-        display: inline-block;
-        transform: translateY(48px);
-        opacity: 0;
-        font-family: var(--font-display);
-        font-size: 3.25rem;
-        line-height: 1;
-        letter-spacing: -0.01em;
-        text-transform: uppercase;
-        transition: transform 420ms ease-out, opacity 420ms ease-out, color 180ms ease;
-      }
+      
 
-      .mobile-menu.is-open a {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      
 
-      .mobile-menu a:hover {
-        color: var(--accent);
-      }
+      
 
-      .mobile-menu li:nth-child(1) a {
-        transition-delay: 120ms;
-      }
+      
 
-      .mobile-menu li:nth-child(2) a {
-        transition-delay: 180ms;
-      }
+      
 
-      .mobile-menu li:nth-child(3) a {
-        transition-delay: 240ms;
-      }
+      
 
-      .mobile-menu li:nth-child(4) a {
-        transition-delay: 300ms;
-      }
+      
 
-      .mobile-menu li:nth-child(5) a {
-        transition-delay: 360ms;
-      }
+      
 
       
 
@@ -1295,21 +1180,14 @@
 
       
 
-      @media (min-width: 768px) {
-        .menu-toggle,
-        .mobile-menu {
-          display: none;
-        }
-      }
+      
 
       @media (max-width: 1023px) {
         .crimson-scrollbar {
           display: none;
         }
 
-        .desktop-links {
-          gap: 1.25rem;
-        }
+        
 
         
 
@@ -1360,25 +1238,15 @@
       
 
       @media (max-width: 767px) {
-        .site-nav {
-          padding-top: 1rem;
-        }
+        
 
-        .brand__logo {
-          height: 2.5rem;
-        }
+        
 
-        .desktop-links {
-          display: none;
-        }
+        
 
-        .menu-toggle {
-          display: flex;
-        }
+        
 
-        .mobile-menu {
-          display: flex;
-        }
+        
 
         
 
@@ -1593,41 +1461,6 @@
     >
       <div class="crimson-scrollbar__thumb" id="crimson-scrollbar-thumb"></div>
     </div>
-
-    <header class="site-header" id="top">
-      <nav class="site-nav" aria-label="Main navigation">
-        <a class="brand" href="#top" aria-label="Muhammad Shees — back to top">
-          <img class="brand__logo" src="/assets/logo.png" alt="" />
-        </a>
-        <ul class="desktop-links">
-          <li><a class="nav-link" href="#about">About</a></li>
-          <li><a class="nav-link" href="#projects">Projects</a></li>
-          <li><a class="nav-link" href="#impact">Impact</a></li>
-          <li><a class="nav-link" href="#approach">Approach</a></li>
-          <li><a class="nav-link" href="#contact">Contact</a></li>
-        </ul>
-        <button
-          class="menu-toggle"
-          id="menu-toggle"
-          type="button"
-          aria-label="Open menu"
-          aria-expanded="false"
-          aria-controls="mobile-menu"
-        >
-          <span></span><span></span><span></span>
-        </button>
-      </nav>
-    </header>
-
-    <nav class="mobile-menu" id="mobile-menu" aria-label="Mobile navigation" aria-hidden="true">
-      <ul>
-        <li><a href="#about">About</a></li>
-        <li><a href="#projects">Projects</a></li>
-        <li><a href="#impact">Impact</a></li>
-        <li><a href="#approach">Approach</a></li>
-        <li><a href="#contact">Contact</a></li>
-      </ul>
-    </nav>
 
     <main id="main">
 
@@ -2155,25 +1988,10 @@
           revealObserver.observe(element);
         });
 
-        const menuToggle = document.getElementById("menu-toggle");
-        const mobileMenu = document.getElementById("mobile-menu");
-        function setMenuOpen(open) {
-          menuToggle.classList.toggle("is-open", open);
-          mobileMenu.classList.toggle("is-open", open);
-          menuToggle.setAttribute("aria-expanded", String(open));
-          menuToggle.setAttribute("aria-label", open ? "Close menu" : "Open menu");
-          mobileMenu.setAttribute("aria-hidden", String(!open));
-          body.classList.toggle("menu-open", open);
-        }
-        menuToggle.addEventListener("click", () => {
-          setMenuOpen(menuToggle.getAttribute("aria-expanded") !== "true");
-        });
-
         document.querySelectorAll('a[href^="#"]').forEach((link) => {
           link.addEventListener("click", (event) => {
             const target = document.querySelector(link.getAttribute("href"));
             if (!target) return;
-            if (mobileMenu.classList.contains("is-open")) setMenuOpen(false);
             if (window.lenis) {
               event.preventDefault();
               if (window.location.hash !== link.getAttribute("href")) {
@@ -2186,7 +2004,7 @@
         window.addEventListener("popstate", () => {
           const target = window.location.hash
             ? document.querySelector(window.location.hash)
-            : document.getElementById("top");
+            : document.body;
           if (target && window.lenis) window.lenis.scrollTo(target);
         });
 
