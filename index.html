@@ -347,8 +347,8 @@
         inset: 0;
         z-index: 100;
         display: none;
-        align-items: flex-end;
-        justify-content: flex-end;
+        align-items: center;
+        justify-content: center;
         padding: var(--gutter);
         background: var(--background);
         will-change: transform;
@@ -363,8 +363,44 @@
         transition: opacity 300ms ease;
       }
 
-      .preloader__count span {
+      .preloader__count .preloader__percent {
         color: var(--accent);
+      }
+
+      .preloader__count {
+        display: inline-flex;
+        align-items: flex-start;
+      }
+
+      .digit {
+        display: inline-block;
+        height: 1em;
+        overflow: hidden;
+      }
+
+      .digit__strip {
+        display: flex;
+        flex-direction: column;
+        transition: transform 350ms cubic-bezier(0.22, 1, 0.36, 1);
+        will-change: transform;
+      }
+
+      .digit__strip span {
+        display: block;
+        height: 1em;
+        line-height: 1;
+        text-align: center;
+      }
+
+      .digit--hundreds {
+        width: 0;
+        opacity: 0;
+        transition: width 350ms ease, opacity 350ms ease;
+      }
+
+      .digit--hundreds.is-on {
+        width: 0.58em;
+        opacity: 1;
       }
 
       .preloader.is-labels-hidden .preloader__count {
@@ -1725,7 +1761,7 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <div class="preloader" id="preloader" aria-hidden="true">
-      <p class="preloader__count"><span id="counter">0</span><span>%</span></p>
+      <p class="preloader__count"><span class="digit digit--hundreds" id="digit-hundreds"><span class="digit__strip"></span></span><span class="digit"><span class="digit__strip"></span></span><span class="digit"><span class="digit__strip"></span></span><span class="preloader__percent">%</span></p>
     </div>
 
     <div
@@ -2241,7 +2277,25 @@
         const body = document.body;
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
         const preloader = document.getElementById("preloader");
-        const counter = document.getElementById("counter");
+        const digitStrips = document.querySelectorAll(".digit__strip");
+        digitStrips.forEach((strip) => {
+          for (let repeat = 0; repeat < 12; repeat += 1) {
+            for (let d = 0; d <= 9; d += 1) {
+              const cell = document.createElement("span");
+              cell.textContent = String(d);
+              strip.appendChild(cell);
+            }
+          }
+        });
+        const hundredsDigit = document.getElementById("digit-hundreds");
+        function renderCount(value) {
+          const places = [Math.floor(value / 100), Math.floor(value / 10), value];
+          digitStrips.forEach((strip, i) => {
+            strip.style.transform = `translateY(${-places[i]}em)`;
+          });
+          hundredsDigit.classList.toggle("is-on", value >= 100);
+        }
+        renderCount(0);
         let loading = false;
 
         body.classList.add("js-enabled");
@@ -2276,7 +2330,7 @@
           const start = performance.now();
           function count(time) {
             const progress = Math.min((time - start) / 2000, 1);
-            counter.textContent = String(Math.round(progress * 100));
+            renderCount(Math.round(progress * 100));
             if (progress < 1) {
               requestAnimationFrame(count);
               return;
@@ -2294,7 +2348,7 @@
                 },
                 { once: true },
               );
-            }, 200);
+            }, 400);
           }
           requestAnimationFrame(count);
 
