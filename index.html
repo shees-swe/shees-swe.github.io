@@ -87,8 +87,8 @@
         --font-display: "Anton", Impact, sans-serif;
         --font-sans: "Onest", Arial, sans-serif;
         --gutter: 2.5rem;
-        --section: 9rem;
-        --section-compact: 6rem;
+        --section: 6.5rem;
+        --section-compact: 3.5rem;
         --space-1: 0.5rem;
         --space-2: 0.75rem;
         --space-3: 1rem;
@@ -109,7 +109,7 @@
         background: var(--background);
         font-size: 16px;
         scroll-behavior: smooth;
-        scroll-padding-top: 6rem;
+        scroll-padding-top: 4.5rem;
         scrollbar-width: none;
       }
 
@@ -2394,7 +2394,7 @@
               if (window.location.hash !== link.getAttribute("href")) {
                 window.history.pushState(null, "", link.getAttribute("href"));
               }
-              window.lenis.scrollTo(target);
+              window.lenis.scrollTo(target, { offset: -72 });
             }
           });
         });
@@ -2402,7 +2402,7 @@
           const target = window.location.hash
             ? document.querySelector(window.location.hash)
             : document.body;
-          if (target && window.lenis) window.lenis.scrollTo(target);
+          if (target && window.lenis) window.lenis.scrollTo(target, { offset: -72 });
         });
 
         const approachContent = [
