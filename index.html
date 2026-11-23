@@ -348,20 +348,10 @@
         z-index: 100;
         display: none;
         align-items: flex-end;
-        justify-content: space-between;
+        justify-content: flex-end;
         padding: var(--gutter);
         background: var(--background);
         will-change: transform;
-      }
-
-      .preloader__brand {
-        color: var(--foreground);
-        font-family: var(--font-display);
-        font-size: 1.75rem;
-        line-height: 1;
-        letter-spacing: -0.01em;
-        text-transform: uppercase;
-        transition: opacity 300ms ease;
       }
 
       .preloader__count {
@@ -377,7 +367,6 @@
         color: var(--accent);
       }
 
-      .preloader.is-labels-hidden .preloader__brand,
       .preloader.is-labels-hidden .preloader__count {
         opacity: 0;
       }
@@ -1736,7 +1725,6 @@
     <a class="skip-link" href="#main">Skip to content</a>
 
     <div class="preloader" id="preloader" aria-hidden="true">
-      <p class="preloader__brand">Muhammad Shees</p>
       <p class="preloader__count"><span id="counter">0</span><span>%</span></p>
     </div>
 
