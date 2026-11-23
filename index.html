@@ -2329,8 +2329,12 @@
 
           const start = performance.now();
           function count(time) {
-            const progress = Math.min((time - start) / 2000, 1);
-            renderCount(Math.round(progress * 100));
+            const progress = Math.min((time - start) / 3600, 1);
+            const eased =
+              progress < 0.5
+                ? 4 * progress * progress * progress
+                : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+            renderCount(Math.round(eased * 100));
             if (progress < 1) {
               requestAnimationFrame(count);
               return;
